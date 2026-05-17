@@ -5,10 +5,13 @@ export default function PublicLayout() {
   return (
     <div>
       <Navbar />
+
       <main>
         <Outlet />
       </main>
-      <footer>Footer</footer>
+
+      <Footer />
     </div>
   );
 }
+
