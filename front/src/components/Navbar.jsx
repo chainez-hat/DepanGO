@@ -1,11 +1,11 @@
-import { Link } from "react-router";
-import Button from "./Button";
+/*import { Link } from "react-router";
+//import Button from "./Button";
 
 export default function Navbar() {
-  const username = localStorage.getItem("username");
+  const email = localStorage.getItem("email");
 
   function handleLogout() {
-    localStorage.removeItem("username");
+    localStorage.removeItem("email");
     localStorage.removeItem("role");
     localStorage.removeItem("token");
     window.location.reload();
@@ -34,9 +34,9 @@ export default function Navbar() {
         </svg>
       </div>
       <div>
-        {username ? (
+        {email ? (
           <>
-            <span className="mr-4">Hello, {username}</span>
+            <span className="mr-4">Hello, {email}</span>
             <button onClick={handleLogout}>Logout</button>
           </>
         ) : (
@@ -44,5 +44,83 @@ export default function Navbar() {
         )}
       </div>
     </div>
+  );
+}*/
+
+import { Link } from "react-router";
+import logo from "../assets/logo.svg";
+
+export default function Navbar() {
+  const email = localStorage.getItem("email");
+
+  function handleLogout() {
+    localStorage.removeItem("email");
+    localStorage.removeItem("role");
+    localStorage.removeItem("token");
+
+    window.location.reload();
+  }
+
+  return (
+    <nav className="absolute top-0 left-0 w-full z-50 bg-transparent text-white py-4">
+      <div className="max-w-[1400px] w-full mx-auto px-8 flex items-center justify-between">
+        
+        {/* Logo */}
+        <div>
+          <img
+            src={logo}
+            alt="DepanGO"
+            className="h-20"
+          />
+        </div>
+
+        {/* Navigation */}
+        <ul className="flex gap-8 text-sm font-medium">
+          <li>
+            <Link to="/">Accueil</Link>
+          </li>
+
+          <li>
+            <Link to="/services">Services</Link>
+          </li>
+
+          <li>
+            <Link to="/how-it-works">Comment ça marche</Link>
+          </li>
+
+          <li>
+            <Link to="/about">À propos</Link>
+          </li>
+        </ul>
+
+        {/* Auth */}
+        <div>
+          {email ? (
+            <div className="flex items-center gap-4">
+              <span>Bonjour, {email}</span>
+
+              <button
+                onClick={handleLogout}
+                className="bg-orange-500 px-4 py-2 rounded-md"
+              >
+                Déconnexion
+              </button>
+            </div>
+          ) : (
+            <div className="flex gap-4">
+              <Link to="/auth/login">Connexion</Link>
+
+              <Link
+                to="/auth/register"
+                className="bg-orange-500 px-4 py-2 rounded-md"
+              >
+                Inscription
+              </Link>
+            </div>
+          )}
+        </div>
+
+      </div>
+    </nav>
   );
 }
