@@ -7,6 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import logoDark from "../../assets/logodark.svg";
+
 const registerSchema = z.object({
   username: z.string(),
   password: z.string(),
@@ -47,41 +49,42 @@ export function Register() {
   }
   return (
     <>
-      <h1 className="text-2xl">Register</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input type="hidden" id="id" {...register("id")} />
-        <label
-          htmlFor="username"
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        >
-          Username
-        </label>
-        <input
-          id="username"
-          type="text"
-          placeholder="Votre nom d'utilisateur"
-          {...register("username")}
-          required
-        />
+      
+  <div className="min-h-screen bg-[#F5F7FA] flex items-center justify-center px-6 py-20">
+    <div className="w-full max-w-5xl bg-white rounded-3xl shadow-sm p-12">
+      <div className="flex items-center justify-between mb-8">
+  
+  <img
+    src={logoDark}
+    alt="DepanGO"
+    className="h-40"
+  />
 
-        <label
-          htmlFor="password"
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        >
-          Password
-        </label>
-        <input
-          id="password"
-          type="password"
-          placeholder="Votre mot de passe"
-          {...register("password")}
-          required
-        />
+  <div className="text-sm">
+    <span className="text-gray-500">
+      Déjà un compte? 
+    </span>
 
-        <button type="submit">Register</button>
-      </form>
+    <Link
+      to="/auth/login"
+      className="ml-2 text-orange-500 font-medium hover:underline"
+    >
+      Se connecter
+    </Link>
+  </div>
 
-      <Link to="/auth/login">Already have an account? Login</Link>
+</div>
+
+      <h1 className="text-4xl font-bold text-center text-[#07182E]">
+        Créer un compte
+      </h1>
+
+      <p className="text-center text-gray-500 mt-4 text-sm">
+        Rejoignez DepanGO et commencez à recevoir des interventions.
+      </p>
+    </div>
+  </div>
+
     </>
   );
 }

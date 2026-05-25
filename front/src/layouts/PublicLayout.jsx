@@ -1,17 +1,26 @@
-import { Outlet } from "react-router";
+//import { Outlet } from "react-router";
+import { Outlet, useLocation } from "react-router";
+
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 export default function PublicLayout() {
+  const location = useLocation();
+
+   const hideLayout =
+    location.pathname === "/auth/login" ||
+    location.pathname === "/auth/register";
+
+
   return (
     <div>
-      <Navbar />
+       {!hideLayout && <Navbar />}
 
       <main>
         <Outlet />
       </main>
 
-      <Footer />
+      {!hideLayout && <Footer />}
     </div>
   );
 }
