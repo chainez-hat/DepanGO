@@ -11,6 +11,7 @@ import AdminLayout from "./layouts/AdminLayout.jsx";
 import PublicLayout from "./layouts/PublicLayout.jsx";
 import { Login } from "./pages/auth/Login.jsx";
 import { Register } from "./pages/auth/Register.jsx";
+import BecomeTechnician from "./pages/public/BecomeTechnician.jsx";
 import { RoleGuard } from "./middlewares/RoleGuard.jsx";
 
 const queryClient = new QueryClient({
@@ -31,6 +32,7 @@ createRoot(document.getElementById("root")).render(
             <Route index element={<Home />} />
             <Route path="/auth/login" element={<Login />} />
             <Route path="/auth/register" element={<Register />} />
+            <Route path="/become-technician" element={<BecomeTechnician />} />
           </Route>
 
           {/* Routes privées */}
