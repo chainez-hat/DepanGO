@@ -1,4 +1,5 @@
 import { Link, useNavigate } from "react-router";
+import { FaUser } from "react-icons/fa";
 
 import { signIn } from "../../api/auth.js";
 import { useMutation } from "@tanstack/react-query";
@@ -9,17 +10,30 @@ import * as z from "zod";
 
 import logoDark from "../../assets/logodark.svg";
 
-const registerSchema = z.object({
-  username: z.string(),
-  password: z.string(),
-});
+const registerSchema = z
+  .object({
+    first_name: z.string().min(2),
+    last_name: z.string().min(2),
+    email: z.string().email("Veuillez saisir une adresse email valide"),
+    phone: z.string().min(10),
+    password: z
+      .string()
+      .min(6, "Le mot de passe doit contenir au moins 6 caractères"),
+    confirm_password: z.string(),
+    role: z.string(),
+  })
+
+  .refine((data) => data.password === data.confirm_password, {
+    message: "Les mots de passe ne correspondent pas",
+    path: ["confirm_password"],
+  });
 
 export function Register() {
-  if (localStorage.getItem("username")) {
+  if (localStorage.getItem("email")) {
     return (
       <>
         <h1 className="text-2xl">
-          You are already logged in as {localStorage.getItem("username")}
+          You are already logged in as {localStorage.getItem("email")}
         </h1>
         <Link to="/">Go to Home</Link>
       </>
@@ -28,7 +42,11 @@ export function Register() {
 
   let navigate = useNavigate();
 
-  const { register, handleSubmit } = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     resolver: zodResolver(registerSchema),
   });
 
@@ -42,49 +60,199 @@ export function Register() {
       alert(data.data?.message);
       navigate("/auth/login");
     },
+    onError: (error) => {
+      //console.log(error.response?.data);
+      alert(JSON.stringify(error.response?.data));
+      //console.log("ERREUR BACKEND :", error.response?.data);
+    },
   });
 
   function onSubmit(data) {
+    //console.log("FORMULAIRE ENVOYÉ", data);
+    console.log(JSON.stringify(data, null, 2));
     return registerMutation.mutate(data);
   }
   return (
     <>
-      
-  <div className="min-h-screen bg-[#F5F7FA] flex items-center justify-center px-6 py-20">
-    <div className="w-full max-w-5xl bg-white rounded-3xl shadow-sm p-12">
-      <div className="flex items-center justify-between mb-8">
-  
-  <img
-    src={logoDark}
-    alt="DepanGO"
-    className="h-40"
-  />
+      <div className="min-h-screen bg-[#F5F7FA] flex items-center justify-center px-6 py-20">
+        <div className="w-full max-w-5xl bg-white rounded-3xl shadow-sm p-12">
+          <div className="flex items-center justify-between mb-8">
+            <img src={logoDark} alt="DepanGO" className="h-40" />
 
-  <div className="text-sm">
-    <span className="text-gray-500">
-      Déjà un compte? 
-    </span>
+            <div className="text-sm">
+              <span className="text-gray-500">Déjà un compte?</span>
 
-    <Link
-      to="/auth/login"
-      className="ml-2 text-orange-500 font-medium hover:underline"
-    >
-      Se connecter
-    </Link>
-  </div>
+              <Link
+                to="/auth/login"
+                className="ml-2 text-orange-500 font-medium hover:underline"
+              >
+                Se connecter
+              </Link>
+            </div>
+          </div>
 
-</div>
+          <h1 className="text-4xl font-bold text-center text-[#07182E]">
+            Créer un compte
+          </h1>
 
-      <h1 className="text-4xl font-bold text-center text-[#07182E]">
-        Créer un compte
-      </h1>
+          <p className="text-center text-gray-500 mt-4 text-sm">
+            Rejoignez DepanGO et commencez à recevoir des interventions.
+          </p>
 
-      <p className="text-center text-gray-500 mt-4 text-sm">
-        Rejoignez DepanGO et commencez à recevoir des interventions.
-      </p>
-    </div>
-  </div>
+          <div className="flex justify-center mt-10 mb-20">
+            <div className="w-full max-w-md border border-orange-500 rounded-xl py-5 flex items-center justify-center gap-3 text-orange-500 font-semibold text-xl">
+              <FaUser />
+              <span>Je suis un technicien</span>
+            </div>
+          </div>
 
+          <form className="mt-10" onSubmit={handleSubmit(onSubmit)}>
+            <input type="hidden" value="TECHNICIAN" {...register("role")} />
+
+            <div className="grid grid-cols-2 gap-6">
+              <div>
+                <label className="block text-left text-sm font-medium text-gray-700 mb-2">
+                  Prénom *
+                </label>
+
+                <input
+                  type="text"
+                  placeholder="Votre prénom"
+                  {...register("first_name")}
+                  className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-left text-sm font-medium text-gray-700 mb-2">
+                  Nom *
+                </label>
+
+                <input
+                  type="text"
+                  placeholder="Votre nom"
+                  {...register("last_name")}
+                  className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500"
+                />
+              </div>
+            </div>
+
+            <div className="mt-6">
+              <label className="block text-left text-sm font-medium text-gray-700 mb-2">
+                Email *
+              </label>
+
+              <input
+                type="email"
+                placeholder="Entrez votre email"
+                {...register("email")}
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500"
+              />
+            </div>
+
+            <div className="mt-6">
+              <label className="block text-left text-sm font-medium text-gray-700 mb-2">
+                Téléphone *
+              </label>
+
+              <input
+                type="tel"
+                placeholder="Entrez votre numéro de téléphone"
+                {...register("phone")}
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500"
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-6 mt-6">
+              <div>
+                <label className="block text-left text-sm font-medium text-gray-700 mb-2">
+                  Mot de passe *
+                </label>
+
+                <input
+                  type="password"
+                  placeholder="Entrez votre mot de passe"
+                  {...register("password")}
+                  className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-left text-sm font-medium text-gray-700 mb-2">
+                  Confirmer le mot de passe *
+                </label>
+
+                <input
+                  type="password"
+                  placeholder="Confirmez votre mot de passe"
+                  {...register("confirm_password")}
+                  className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500"
+                />
+
+                {errors.confirm_password && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.confirm_password.message}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div className="mt-6">
+              <label className="block text-left text-sm font-medium text-gray-700 mb-2">
+                Spécialité principale *
+              </label>
+
+              <select className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500">
+                <option value="">Sélectionnez votre spécialité</option>
+
+                <option value="electricite">Électricité</option>
+
+                <option value="plomberie">Plomberie</option>
+
+                <option value="chauffage">Chauffage</option>
+
+                <option value="serrurerie">Serrurerie</option>
+
+                <option value="internet">Internet</option>
+              </select>
+            </div>
+
+            <div className="mt-8 flex items-center gap-3">
+              <input type="checkbox" id="terms" />
+
+              <label htmlFor="terms" className="text-gray-600">
+                J'accepte les
+                <span className="text-orange-500">
+                  {" "}
+                  conditions d'utilisation{" "}
+                </span>
+                et la
+                <span className="text-orange-500">
+                  {" "}
+                  politique de confidentialité
+                </span>
+              </label>
+            </div>
+            <button
+              type="submit"
+              className="w-full mt-8 bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-xl font-semibold transition"
+            >
+              S'inscrire
+            </button>
+
+            <div className="text-center mt-8">
+              <span className="text-gray-500">Vous avez déjà un compte ?</span>
+
+              <Link
+                to="/auth/login"
+                className="ml-2 text-orange-500 font-medium hover:underline"
+              >
+                Se connecter
+              </Link>
+            </div>
+          </form>
+        </div>
+      </div>
     </>
   );
 }

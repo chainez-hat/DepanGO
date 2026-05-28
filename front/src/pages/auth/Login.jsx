@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router";
 
+import logoDark from "../../assets/logodark.svg";
 import { login } from "../../api/auth.js";
 import { useMutation } from "@tanstack/react-query";
 
@@ -8,16 +9,18 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 const loginSchema = z.object({
-  username: z.string(),
-  password: z.string(),
+  email: z.string().email("Veuillez saisir une adresse email valide"),
+  password: z
+    .string()
+    .min(6, "Le mot de passe doit contenir au moins 6 caractères"),
 });
 
 export function Login() {
-  if (localStorage.getItem("username")) {
+  if (localStorage.getItem("email")) {
     return (
       <>
         <h1 className="text-2xl">
-          You are already logged in as {localStorage.getItem("username")}
+          You are already logged in as {localStorage.getItem("email")}
         </h1>
         <Link to="/">Go to Home</Link>
       </>
@@ -36,7 +39,9 @@ export function Login() {
     },
     onSuccess: (response, variables, context) => {
       // If you are logged
-      localStorage.setItem("username", response.data?.username);
+      localStorage.setItem("first_name", response.data?.first_name);
+      localStorage.setItem("last_name", response.data?.last_name);
+      localStorage.setItem("email", response.data?.email);
       localStorage.setItem("role", response.data?.role);
       localStorage.setItem("token", response.data?.token);
 
@@ -62,42 +67,85 @@ export function Login() {
   }
   return (
     <>
-      <h1 className="text-2xl">Login</h1>
+      <div className="min-h-screen bg-[#F5F7FA] flex items-center justify-center px-6 py-20">
+        <div className="w-full max-w-3xl">
+          <div className="flex justify-center">
+            <img src={logoDark} alt="DepanGO" className="h-30" />
+          </div>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input type="hidden" id="id" {...register("id")} />
-        <label
-          htmlFor="username"
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        >
-          Username
-        </label>
-        <input
-          id="username"
-          type="text"
-          placeholder="Votre nom d'utilisateur"
-          {...register("username")}
-          required
-        />
+          <h1 className="text-center text-5xl font-bold text-[#07182E] mt-8">
+            Connexion
+          </h1>
 
-        <label
-          htmlFor="password"
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-        >
-          Password
-        </label>
-        <input
-          id="password"
-          type="password"
-          placeholder="Votre mot de passe"
-          {...register("password")}
-          required
-        />
+          <p className="text-center text-gray-500 text-lg mt-3 mb-10">
+            Connectez-vous à votre compte pour continuer
+          </p>
 
-        <button type="submit">Login</button>
-      </form>
+          <div className="bg-white rounded-3xl shadow-sm p-10">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div>
+                <label className="block text-left text-base font-medium text-[#07182E] mb-2">
+                  Email
+                </label>
 
-      <Link to="/auth/register">No account yet? Register</Link>
+                <input
+                  type="email"
+                  placeholder="Entrez votre email"
+                  {...register("email")}
+                  className="w-full border border-gray-300 rounded-xl px-4 py-3 text-lg focus:outline-none focus:border-orange-500"
+                />
+              </div>
+
+              <div className="mt-8">
+                <label className="block text-left text-base font-medium text-[#07182E] mb-2">
+                  Mot de passe
+                </label>
+
+                <input
+                  type="password"
+                  placeholder="Entrez votre mot de passe"
+                  {...register("password")}
+                  className="w-full border border-gray-300 rounded-xl px-4 py-3 text-base focus:outline-none focus:border-orange-500"
+                />
+
+                <div className="flex items-center justify-between mt-6">
+                  <label className="flex items-center gap-2 text-gray-600 text-sm">
+                    <input type="checkbox" className="accent-orange-500" />
+                    Se souvenir de moi
+                  </label>
+
+                  <Link
+                    to="/forgot-password"
+                    className="text-orange-500 text-sm hover:underline"
+                  >
+                    Mot de passe oublié ?
+                  </Link>
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full mt-8 bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-semibold transition"
+                >
+                  Se connecter
+                </button>
+
+                <div className="text-center mt-8">
+                  <span className="text-gray-500">
+                    Vous n'avez pas de compte ?
+                  </span>
+
+                  <Link
+                    to="/auth/register"
+                    className="ml-2 text-orange-500 font-medium hover:underline"
+                  >
+                    Créer un compte
+                  </Link>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
