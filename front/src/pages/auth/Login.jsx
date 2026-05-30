@@ -49,9 +49,11 @@ export function Login() {
         case "ADMIN":
           navigate("/admin");
           break;
-        case "JURY":
-          navigate("/");
+
+        case "TECHNICIAN":
+          navigate("/technician");
           break;
+
         default:
           navigate("/");
           break;

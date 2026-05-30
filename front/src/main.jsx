@@ -13,6 +13,7 @@ import { Login } from "./pages/auth/Login.jsx";
 import { Register } from "./pages/auth/Register.jsx";
 import BecomeTechnician from "./pages/public/BecomeTechnician.jsx";
 import { RoleGuard } from "./middlewares/RoleGuard.jsx";
+import TechnicianDashboard from "./pages/technician/Dashboard.jsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -45,6 +46,18 @@ createRoot(document.getElementById("root")).render(
             }
           >
             <Route index element={<Dashboard />} />
+          </Route>
+
+          {/* Routes privées */}
+          <Route
+            path="technician"
+            element={
+              <RoleGuard allowedRoles={["TECHNICIAN"]}>
+                <AdminLayout />
+              </RoleGuard>
+            }
+          >
+            <Route index element={<TechnicianDashboard />} />
           </Route>
         </Routes>
       </QueryClientProvider>
