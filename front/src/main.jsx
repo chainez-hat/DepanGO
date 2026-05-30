@@ -7,13 +7,18 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./index.css";
 import Home from "./pages/public/Home.jsx";
 import Dashboard from "./pages/admin/Dashboard.jsx";
+import TechnicianDashboard from "./pages/technician/Dashboard.jsx";
+import Requests from "./pages/technician/Requests.jsx";
+import Interventions from "./pages/technician/Interventions.jsx";
+import Subscription from "./pages/technician/Subscription.jsx";
+import Profile from "./pages/technician/Profile.jsx";
 import AdminLayout from "./layouts/AdminLayout.jsx";
 import PublicLayout from "./layouts/PublicLayout.jsx";
+import TechnicianLayout from "./layouts/TechnicianLayout.jsx";
 import { Login } from "./pages/auth/Login.jsx";
 import { Register } from "./pages/auth/Register.jsx";
 import BecomeTechnician from "./pages/public/BecomeTechnician.jsx";
 import { RoleGuard } from "./middlewares/RoleGuard.jsx";
-import TechnicianDashboard from "./pages/technician/Dashboard.jsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -53,11 +58,15 @@ createRoot(document.getElementById("root")).render(
             path="technician"
             element={
               <RoleGuard allowedRoles={["TECHNICIAN"]}>
-                <AdminLayout />
+                <TechnicianLayout />
               </RoleGuard>
             }
           >
             <Route index element={<TechnicianDashboard />} />
+            <Route path="requests" element={<Requests />} />
+            <Route path="interventions" element={<Interventions />} />
+            <Route path="subscription" element={<Subscription />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
         </Routes>
       </QueryClientProvider>
