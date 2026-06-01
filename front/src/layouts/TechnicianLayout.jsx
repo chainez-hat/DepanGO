@@ -4,6 +4,7 @@ import {
   FaTools,
   FaCreditCard,
   FaUser,
+  FaBell,
 } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { NavLink, Outlet } from "react-router";
@@ -128,15 +129,23 @@ export default function TechnicianLayout() {
       <div className="flex-1 bg-[#F5F7FA]">
         {/* Header */}
         <header className="h-20 bg-white border-b border-gray-200 flex items-center justify-end px-8">
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-full bg-gray-300"></div>
+          <div className="flex items-center gap-6">
+            <button className="text-[#07182E] hover:text-orange-500 transition">
+              <FaBell size={20} />
+            </button>
+            <div className="flex items-center gap-4">
+              {/* Avatar */}
+              <div className="w-11 h-11 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold">
+                {localStorage.getItem("first_name")?.charAt(0)}
+              </div>
 
-            <div>
-              <p className="font-semibold text-[#07182E]">
-                {localStorage.getItem("first_name")}
-              </p>
+              <div>
+                <p className="font-semibold text-[#07182E]">
+                  {localStorage.getItem("first_name")}
+                </p>
 
-              <p className="text-sm text-gray-500">Technicien</p>
+                <p className="text-sm text-gray-500">Technicien</p>
+              </div>
             </div>
           </div>
         </header>
