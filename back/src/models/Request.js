@@ -30,13 +30,18 @@ const Request = sequelize.define("Request", {
     allowNull: false,
   },
 
+  email_client: {
+  type: DataTypes.STRING,
+  allowNull: false,
+  },
+
   status_request: {
     type: DataTypes.ENUM(
       "en_attente",
-      "acceptée",
+      "acceptee",
       "en_attente_paiement",
-      "confirmé",
-      "annulé"
+      "confirmee",
+      "annulee"
     ),
     defaultValue: "en_attente",
   },

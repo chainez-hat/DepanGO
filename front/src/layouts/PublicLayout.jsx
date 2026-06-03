@@ -7,14 +7,16 @@ import Footer from "../components/Footer";
 export default function PublicLayout() {
   const location = useLocation();
 
-   const hideLayout =
+  const hideLayout =
     location.pathname === "/auth/login" ||
-    location.pathname === "/auth/register";
-
+    location.pathname === "/auth/register" ||
+    location.pathname === "/request";
 
   return (
     <div>
-       {!hideLayout && <Navbar />}
+      {!hideLayout && (
+        <Navbar dark={location.pathname === "/become-technician"} />
+      )}
 
       <main>
         <Outlet />
@@ -24,4 +26,3 @@ export default function PublicLayout() {
     </div>
   );
 }
-
