@@ -5,7 +5,7 @@ import AuthMiddleware from "../middlewares/AuthMiddleware.js";
 const serviceRouter = express.Router();
 
 // Routes protégées ADMIN
-serviceRouter.use((req, res, next) =>
+/*serviceRouter.use((req, res, next) =>
   AuthMiddleware(req, res, next, ["ADMIN"])
 );
 
@@ -22,6 +22,36 @@ serviceRouter.post("/", ServiceController.createService);
 serviceRouter.put("/:id", ServiceController.updateService);
 
 // Supprimer un service
-serviceRouter.delete("/:id", ServiceController.deleteService);
+serviceRouter.delete("/:id", ServiceController.deleteService);*/
+
+
+// Route publique
+serviceRouter.get("/", ServiceController.getServices);
+
+// Routes protégées ADMIN
+serviceRouter.get(
+  "/:id",
+  (req, res, next) => AuthMiddleware(req, res, next, ["ADMIN"]),
+  ServiceController.getServiceById
+);
+
+serviceRouter.post(
+  "/",
+  (req, res, next) => AuthMiddleware(req, res, next, ["ADMIN"]),
+  ServiceController.createService
+);
+
+serviceRouter.put(
+  "/:id",
+  (req, res, next) => AuthMiddleware(req, res, next, ["ADMIN"]),
+  ServiceController.updateService
+);
+
+serviceRouter.delete(
+  "/:id",
+  (req, res, next) => AuthMiddleware(req, res, next, ["ADMIN"]),
+  ServiceController.deleteService
+);
+
 
 export default serviceRouter;

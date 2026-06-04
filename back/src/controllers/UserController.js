@@ -1,4 +1,6 @@
 import User from "../models/User.js";
+import Service from "../models/Service.js";
+import "../models/UserService.js";
 import { hashPassword } from "../utils/password.js";
 
 // Liste
@@ -16,13 +18,15 @@ function createUser(req, res) {
     return res.status(400).json({ error: "Données manquantes" });
   }
 
-  const { 
+  const {
   last_name,
   first_name,
   email,
   phone,
   password,
-  role, } = req.body;
+  role,
+  service_id,
+  } = req.body;
 
   if (!last_name || !first_name || !email || !phone || !password || !role) {
     return res.status(400).json({ error: "Tous les champs sont requis" });
@@ -34,7 +38,14 @@ function createUser(req, res) {
     } else {
       const hash = await hashPassword(password);
       User.create({ last_name: last_name, first_name: first_name, email: email, phone: phone, password: hash, role: role }).then(
-        (newUser) => {
+  async (newUser) => {
+
+          const service = await Service.findByPk(service_id);
+
+          if (service) {
+          await newUser.addService(service);
+          }
+
           res.status(201).json({ message: "Utilisateur créé", newUser });
         },
       );

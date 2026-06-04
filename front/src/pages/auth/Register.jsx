@@ -4,6 +4,9 @@ import { FaUser } from "react-icons/fa";
 import { signIn } from "../../api/auth.js";
 import { useMutation } from "@tanstack/react-query";
 
+import { getServices } from "../../api/services.js";
+import { useQuery } from "@tanstack/react-query";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -21,6 +24,7 @@ const registerSchema = z
       .min(6, "Le mot de passe doit contenir au moins 6 caractères"),
     confirm_password: z.string(),
     role: z.string(),
+    service_id: z.string().min(1, "Veuillez choisir une spécialité"),
   })
 
   .refine((data) => data.password === data.confirm_password, {
@@ -48,7 +52,20 @@ export function Register() {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(registerSchema),
+    defaultValues: {
+      service_id: "",
+    },
   });
+
+  const { data: servicesResponse } = useQuery({
+    queryKey: ["services"],
+    queryFn: async () => {
+      return await getServices();
+    },
+  });
+  console.log("SERVICES :", servicesResponse);
+
+  const services = servicesResponse?.data || [];
 
   const registerMutation = useMutation({
     mutationFn: async (data) => {
@@ -202,18 +219,17 @@ export function Register() {
                 Spécialité principale *
               </label>
 
-              <select className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500">
+              <select
+                {...register("service_id")}
+                className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500"
+              >
                 <option value="">Sélectionnez votre spécialité</option>
 
-                <option value="electricite">Électricité</option>
-
-                <option value="plomberie">Plomberie</option>
-
-                <option value="chauffage">Chauffage</option>
-
-                <option value="serrurerie">Serrurerie</option>
-
-                <option value="internet">Internet</option>
+                {services.map((service) => (
+                  <option key={service.id} value={service.id}>
+                    {service.name}
+                  </option>
+                ))}
               </select>
             </div>
 
