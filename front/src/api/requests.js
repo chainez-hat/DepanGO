@@ -4,4 +4,8 @@ async function createRequest(data) {
   return await instance.post("/requests", data);
 }
 
-export { createRequest };
+async function getRequests() {
+  return await instance.get("/requests");
+}
+
+export { createRequest, getRequests };
