@@ -1,7 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
-import { getRequests } from "../../api/requests.js";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { getRequests, acceptRequest } from "../../api/requests.js";
 
 export default function Requests() {
+  const queryClient = useQueryClient();
+
   // useQuery pour récupérer les demandes (charger les demandes disponibles pour le technicien)
   const { data: requestsResponse } = useQuery({
     queryKey: ["requests"],
@@ -11,6 +13,34 @@ export default function Requests() {
   });
 
   const requests = requestsResponse?.data || [];
+
+  // Filtrer les demandes pour n'afficher que celles qui sont en attente
+  const availableRequests = requests.filter(
+    (request) => request.status_request === "en_attente",
+  );
+
+  // useMutation pour accepter une demande avec le bouton "Accepter
+  const acceptRequestMutation = useMutation({
+    mutationFn: async (requestId) => {
+      return await acceptRequest(requestId, {
+        status_request: "acceptee",
+        technician_id: Number(localStorage.getItem("user_id")),
+        acceptance_date: new Date(),
+      });
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["requests"],
+      });
+
+      alert("Demande acceptée");
+    },
+
+    onError: (error) => {
+      alert(JSON.stringify(error.response?.data));
+    },
+  });
 
   return (
     <div>
@@ -22,7 +52,7 @@ export default function Requests() {
 
       {/* <pre>{JSON.stringify(requests, null, 2)}</pre> */}
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-        {requests.map((request) => (
+        {availableRequests.map((request) => (
           <div
             key={request.id}
             className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-md transition"
@@ -31,9 +61,17 @@ export default function Requests() {
               <h2 className="text-2xl font-bold text-[#07182E]">
                 {request.Service?.name}
               </h2>
-
-              <span className="bg-orange-100 text-orange-600 px-4 py-2 rounded-full text-sm font-medium">
-                En attente
+              {/* Récupérer le statut de la demande et l'afficher avec une couleur différente selon le statut (en attente, acceptée, refusée) */}
+              <span
+                className={`px-4 py-2 rounded-full text-sm font-medium ${
+                  request.status_request === "en_attente"
+                    ? "bg-yellow-100 text-yellow-600"
+                    : request.status_request === "acceptee"
+                      ? "bg-green-100 text-green-600"
+                      : "bg-red-100 text-red-600"
+                }`}
+              >
+                {request.status_request}
               </span>
             </div>
 
@@ -73,6 +111,7 @@ export default function Requests() {
 
             <button
               type="button"
+              onClick={() => acceptRequestMutation.mutate(request.id)}
               className="mt-6 w-full bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-2xl font-semibold transition"
             >
               Accepter la demande

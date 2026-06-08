@@ -8,4 +8,8 @@ async function getRequests() {
   return await instance.get("/requests");
 }
 
-export { createRequest, getRequests };
+async function acceptRequest(id, data) {
+  return await instance.put(`/requests/${id}`, data);
+}
+
+export { createRequest, getRequests, acceptRequest };
