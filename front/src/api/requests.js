@@ -12,4 +12,7 @@ async function acceptRequest(id, data) {
   return await instance.put(`/requests/${id}`, data);
 }
 
-export { createRequest, getRequests, acceptRequest };
+async function cancelRequest(id, data) {
+  return await instance.put(`/requests/${id}`, data);
+}
+export { createRequest, getRequests, acceptRequest, cancelRequest };

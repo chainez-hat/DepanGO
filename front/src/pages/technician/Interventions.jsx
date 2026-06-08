@@ -1,7 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
-import { getRequests } from "../../api/requests.js";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { getRequests, cancelRequest } from "../../api/requests.js";
 
 export default function Interventions() {
+  const queryClient = useQueryClient();
+
   // charger les demandes disponibles pour le technicien
   const { data: requestsResponse } = useQuery({
     queryKey: ["requests"],
@@ -18,6 +21,29 @@ export default function Interventions() {
       request.status_request === "acceptee" &&
       request.technician_id === Number(localStorage.getItem("user_id")),
   );
+
+  const cancelRequestMutation = useMutation({
+    mutationFn: async (requestId) => {
+      return await cancelRequest(requestId, {
+        status_request: "en_attente",
+        technician_id: null,
+        acceptance_date: null,
+      });
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["requests"],
+      });
+
+      alert("Intervention annulée");
+    },
+
+    onError: (error) => {
+      alert(JSON.stringify(error.response?.data));
+    },
+  });
+
   return (
     <div>
       <h1 className="text-3xl font-bold text-[#07182E]">Mes interventions</h1>
@@ -75,6 +101,14 @@ export default function Interventions() {
                 {request.description}
               </p>
             </div>
+
+            <button
+              type="button"
+              onClick={() => cancelRequestMutation.mutate(request.id)}
+              className="mt-6 w-full bg-red-500 hover:bg-red-600 text-white py-4 rounded-2xl font-semibold transition"
+            >
+              Annuler l'intervention
+            </button>
           </div>
         ))}
       </div>
