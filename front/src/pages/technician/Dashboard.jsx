@@ -4,8 +4,37 @@ import {
   FaCreditCard,
   FaCheckCircle,
 } from "react-icons/fa";
+import { useQuery } from "@tanstack/react-query";
+import { getRequests } from "../../api/requests.js";
 
 export default function TechnicianDashboard() {
+  // charger les demandes disponibles pour le technicien
+  const { data: requestsResponse } = useQuery({
+    queryKey: ["requests"],
+    queryFn: async () => {
+      return await getRequests();
+    },
+  });
+
+  const requests = requestsResponse?.data || [];
+
+  // Filtrer les demandes pour n'afficher que celles qui sont en attente, acceptées et terminées pour le technicien connecté
+  const availableRequests = requests.filter(
+    (request) => request.status_request === "en_attente",
+  );
+
+  const activeInterventions = requests.filter(
+    (request) =>
+      request.status_request === "acceptee" &&
+      request.technician_id === Number(localStorage.getItem("user_id")),
+  );
+
+  const completedInterventions = requests.filter(
+    (request) =>
+      request.status_request === "confirmee" &&
+      request.technician_id === Number(localStorage.getItem("user_id")),
+  );
+
   return (
     <div>
       <h1 className="text-3xl font-bold text-[#07182E]">
@@ -27,12 +56,14 @@ export default function TechnicianDashboard() {
             <div>
               <p className="text-[#07182E] font-bold">Demandes disponibles</p>
 
-              <h2 className="text-3xl font-bold text-[#07182E]">0</h2>
+              <h2 className="text-3xl font-bold text-[#07182E]">
+                {availableRequests.length}
+              </h2>
             </div>
           </div>
         </div>
 
-        {/* Interventions confirmées */}
+        {/* Interventions acceptées */}
         <div className="bg-white rounded-3xl p-8 min-h-[220px] border border-gray-100 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center">
@@ -41,10 +72,12 @@ export default function TechnicianDashboard() {
 
             <div>
               <p className="text-[#07182E] font-bold">
-                Interventions confirmées
+                Interventions acceptées
               </p>
 
-              <h2 className="text-3xl font-bold text-[#07182E]">0</h2>
+              <h2 className="text-3xl font-bold text-[#07182E]">
+                {activeInterventions.length}
+              </h2>
             </div>
           </div>
         </div>
@@ -72,9 +105,13 @@ export default function TechnicianDashboard() {
             </div>
 
             <div>
-              <p className="text-[#07182E] font-bold">Disponibilité</p>
+              <p className="text-[#07182E] font-bold">
+                Interventions terminées
+              </p>
 
-              <h2 className="text-3xl font-bold text-green-500">Disponible</h2>
+              <h2 className="text-3xl font-bold text-[#07182E]">
+                {completedInterventions.length}
+              </h2>
             </div>
           </div>
         </div>
