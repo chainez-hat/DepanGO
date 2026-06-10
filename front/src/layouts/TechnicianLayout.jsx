@@ -5,6 +5,7 @@ import {
   FaCreditCard,
   FaUser,
   FaBell,
+  FaCheckCircle,
 } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { NavLink, Outlet } from "react-router";
@@ -76,6 +77,22 @@ export default function TechnicianLayout() {
                 <div className="flex items-center gap-3">
                   <FaTools />
                   <span> Interventions</span>
+                </div>
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink
+                to="/technician/completed-interventions"
+                className={({ isActive }) =>
+                  isActive
+                    ? "block px-5 py-4 rounded-2xl bg-gray-100 text-orange-500 font-semibold"
+                    : "block px-5 py-4 rounded-2xl text-[#07182E] hover:bg-gray-50"
+                }
+              >
+                <div className="flex items-center gap-3">
+                  <FaCheckCircle />
+                  <span>Interventions terminées</span>
                 </div>
               </NavLink>
             </li>

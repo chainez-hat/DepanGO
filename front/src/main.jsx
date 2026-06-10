@@ -12,6 +12,7 @@ import Dashboard from "./pages/admin/Dashboard.jsx";
 import TechnicianDashboard from "./pages/technician/Dashboard.jsx";
 import Requests from "./pages/technician/Requests.jsx";
 import Interventions from "./pages/technician/Interventions.jsx";
+import CompletedInterventions from "./pages/technician/CompletedInterventions.jsx";
 import Subscription from "./pages/technician/Subscription.jsx";
 import Profile from "./pages/technician/Profile.jsx";
 import AdminLayout from "./layouts/AdminLayout.jsx";
@@ -67,6 +68,10 @@ createRoot(document.getElementById("root")).render(
             <Route index element={<TechnicianDashboard />} />
             <Route path="requests" element={<Requests />} />
             <Route path="interventions" element={<Interventions />} />
+            <Route
+              path="completed-interventions"
+              element={<CompletedInterventions />}
+            />
             <Route path="subscription" element={<Subscription />} />
             <Route path="profile" element={<Profile />} />
           </Route>

@@ -1,6 +1,10 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { getRequests, cancelRequest } from "../../api/requests.js";
+import {
+  getRequests,
+  cancelRequest,
+  completeRequest,
+} from "../../api/requests.js";
 
 export default function Interventions() {
   const queryClient = useQueryClient();
@@ -37,6 +41,27 @@ export default function Interventions() {
       });
 
       alert("Intervention annulée");
+    },
+
+    onError: (error) => {
+      alert(JSON.stringify(error.response?.data));
+    },
+  });
+
+  const completeRequestMutation = useMutation({
+    mutationFn: async (requestId) => {
+      return await completeRequest(requestId, {
+        status_request: "confirmee",
+        confirmation_date: new Date(),
+      });
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["requests"],
+      });
+
+      alert("Intervention terminée");
     },
 
     onError: (error) => {
@@ -102,13 +127,24 @@ export default function Interventions() {
               </p>
             </div>
 
-            <button
-              type="button"
-              onClick={() => cancelRequestMutation.mutate(request.id)}
-              className="mt-6 w-full bg-red-500 hover:bg-red-600 text-white py-4 rounded-2xl font-semibold transition"
-            >
-              Annuler l'intervention
-            </button>
+            {/* buttons pour terminer ou annuler l'intervention*/}
+            <div className="mt-6 grid grid-cols-2 gap-4">
+              <button
+                type="button"
+                onClick={() => completeRequestMutation.mutate(request.id)}
+                className="bg-green-500 hover:bg-green-600 text-white py-4 rounded-2xl font-semibold transition"
+              >
+                Terminer l'intervention
+              </button>
+
+              <button
+                type="button"
+                onClick={() => cancelRequestMutation.mutate(request.id)}
+                className="bg-red-500 hover:bg-red-600 text-white py-4 rounded-2xl font-semibold transition"
+              >
+                Annuler l'intervention
+              </button>
+            </div>
           </div>
         ))}
       </div>
