@@ -22,6 +22,7 @@ export default function CreateRequest() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(requestSchema),
@@ -48,6 +49,7 @@ export default function CreateRequest() {
 
     onSuccess: (response) => {
       alert(response.data?.message);
+      reset();
     },
 
     onError: (error) => {
@@ -214,9 +216,12 @@ export default function CreateRequest() {
 
           <button
             type="submit"
-            className="w-full mt-8 bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-xl font-semibold transition"
+            disabled={createRequestMutation.isPending}
+            className="w-full bg-orange-500 hover:bg-orange-600 disabled:bg-gray-400 text-white py-4 rounded-xl font-semibold transition"
           >
-            Envoyer la demande
+            {createRequestMutation.isPending
+              ? "Envoi..."
+              : "Envoyer la demande"}
           </button>
         </form>
       </div>
