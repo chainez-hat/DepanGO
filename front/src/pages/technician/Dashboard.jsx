@@ -6,6 +6,7 @@ import {
 } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 import { getRequests } from "../../api/requests.js";
+import { getSubscriptions } from "../../api/subscriptions.js";
 
 export default function TechnicianDashboard() {
   // charger les demandes disponibles pour le technicien
@@ -17,6 +18,21 @@ export default function TechnicianDashboard() {
   });
 
   const requests = requestsResponse?.data || [];
+
+  // useQuery pour récupérer l'abonnement du technicien
+  const { data: subscriptionsResponse } = useQuery({
+    queryKey: ["subscriptions"],
+    queryFn: async () => {
+      return await getSubscriptions();
+    },
+  });
+
+  const subscriptions = subscriptionsResponse?.data || [];
+
+  const subscription = subscriptions.find(
+    (subscription) =>
+      subscription.user_id === Number(localStorage.getItem("user_id")),
+  );
 
   // Filtrer les demandes pour n'afficher que celles qui sont en attente, acceptées et terminées pour le technicien connecté
   const availableRequests = requests.filter(
@@ -92,7 +108,15 @@ export default function TechnicianDashboard() {
             <div>
               <p className="text-[#07182E] font-bold">Mon abonnement</p>
 
-              <h2 className="text-3xl font-bold text-green-500">Actif</h2>
+              <h2
+                className={`text-3xl font-bold ${
+                  subscription?.status === "active"
+                    ? "text-green-500"
+                    : "text-red-500"
+                }`}
+              >
+                {subscription?.status === "active" ? "Actif" : "Inactif"}
+              </h2>
             </div>
           </div>
         </div>
