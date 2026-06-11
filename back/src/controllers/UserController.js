@@ -97,6 +97,10 @@ function findUserByEmail(email) {
   return User.findOne({ where: { email } });
 }
 
+function getProfile(req, res) {
+  res.json(req.user);
+}
+
 export default {
   getUsers,
   createUser,
@@ -104,4 +108,5 @@ export default {
   updateUser,
   getUserById,
   findUserByEmail,
+  getProfile,
 };

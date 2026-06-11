@@ -4,8 +4,16 @@ import AuthMiddleware from "../middlewares/AuthMiddleware.js";
 
 const userRouter = express.Router();
 
-// Admin
 
+// Route publique pour le profil de l'utilisateur connecté
+userRouter.get(
+  "/profile",
+  (req, res, next) =>
+    AuthMiddleware(req, res, next, ["TECHNICIAN", "ADMIN"]),
+  UserController.getProfile,
+);
+
+// Admin
 userRouter.use((req, res, next) => AuthMiddleware(req, res, next, ["ADMIN"]));
 
 userRouter.get("/", UserController.getUsers); // Liste de tous les utilisateurs
