@@ -1,4 +1,22 @@
+import { useQuery } from "@tanstack/react-query";
+import { getSubscriptions } from "../../api/subscriptions.js";
+
 export default function Subscription() {
+  // Charger les abonnements pour le technicien connecté
+  const { data: subscriptionsResponse } = useQuery({
+    queryKey: ["subscriptions"],
+    queryFn: async () => {
+      return await getSubscriptions();
+    },
+  });
+
+  const subscriptions = subscriptionsResponse?.data || [];
+
+  const subscription = subscriptions.find(
+    (subscription) =>
+      subscription.user_id === Number(localStorage.getItem("user_id")),
+  );
+
   return (
     <div>
       <h1 className="text-3xl font-bold text-[#07182E] text-center">
@@ -20,9 +38,15 @@ export default function Subscription() {
               Recevez des demandes de dépannage en illimité.
             </p>
           </div>
-
-          <div className="bg-red-100 text-red-600 px-4 py-2 rounded-full text-sm font-semibold">
-            Inactif
+          {/* Afficher le statut de l'abonnement*/}
+          <div
+            className={`px-4 py-2 rounded-full text-sm font-semibold ${
+              subscription?.status === "active"
+                ? "bg-green-100 text-green-600"
+                : "bg-red-100 text-red-600"
+            }`}
+          >
+            {subscription?.status === "active" ? "Actif" : "Inactif"}
           </div>
         </div>
 
@@ -30,30 +54,50 @@ export default function Subscription() {
           <div className="bg-gray-50 p-5 rounded-2xl">
             <p className="text-sm text-gray-500 text-center">Date de début</p>
 
-            <p className="font-semibold text-[#07182E] mt-1 text-center">—</p>
+            <p className="font-semibold text-[#07182E] mt-1 text-center">
+              {subscription?.start_date
+                ? new Date(subscription.start_date).toLocaleDateString("fr-FR")
+                : "—"}
+            </p>
           </div>
 
           <div className="bg-gray-50 p-5 rounded-2xl">
             <p className="text-sm text-gray-500 text-center">Date de fin</p>
 
-            <p className="font-semibold text-[#07182E] mt-1 text-center">—</p>
+            <p className="font-semibold text-[#07182E] mt-1 text-center">
+              {subscription?.end_date
+                ? new Date(subscription.end_date).toLocaleDateString("fr-FR")
+                : "—"}
+            </p>
           </div>
         </div>
 
-        <div className="mt-8 bg-orange-50 border border-orange-200 rounded-2xl p-6 text-center">
+        {/* Afficher un message d'information sur le statut de l'abonnement*/}
+        <div
+          className={`mt-8 rounded-2xl p-6 text-center border ${
+            subscription?.status === "active"
+              ? "bg-green-50 border-green-200"
+              : "bg-orange-50 border-orange-200"
+          }`}
+        >
           <p className="text-[#07182E] font-medium">
-            Votre abonnement est actuellement inactif.
+            {subscription?.status === "active"
+              ? "Votre abonnement est actuellement actif."
+              : "Votre abonnement est actuellement inactif."}
           </p>
 
           <p className="text-gray-500 mt-2">
-            Activez votre abonnement pour recevoir et accepter des demandes de
-            dépannage.
+            {subscription?.status === "active"
+              ? "Vous pouvez recevoir et accepter des demandes de dépannage."
+              : "Activez votre abonnement pour recevoir et accepter des demandes de dépannage."}
           </p>
         </div>
-
-        <button className="w-full mt-8 bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-2xl font-semibold transition">
-          Souscrire maintenant
-        </button>
+        {/* Afficher un bouton pour souscrire si l'abonnement n'est pas actif*/}
+        {subscription?.status !== "active" && (
+          <button className="w-full mt-8 bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-2xl font-semibold transition">
+            Souscrire maintenant
+          </button>
+        )}
       </div>
     </div>
   );

@@ -1,6 +1,9 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getRequests, acceptRequest } from "../../api/requests.js";
 
+import { getSubscriptions } from "../../api/subscriptions.js";
+import { Link } from "react-router";
+
 export default function Requests() {
   const queryClient = useQueryClient();
 
@@ -13,6 +16,21 @@ export default function Requests() {
   });
 
   const requests = requestsResponse?.data || [];
+
+  // useQuery pour récupérer l'abonnement du technicien
+  const { data: subscriptionsResponse } = useQuery({
+    queryKey: ["subscriptions"],
+    queryFn: async () => {
+      return await getSubscriptions();
+    },
+  });
+
+  const subscriptions = subscriptionsResponse?.data || [];
+
+  const subscription = subscriptions.find(
+    (subscription) =>
+      subscription.user_id === Number(localStorage.getItem("user_id")),
+  );
 
   // Filtrer les demandes pour n'afficher que celles qui sont en attente
   const availableRequests = requests.filter(
@@ -41,6 +59,35 @@ export default function Requests() {
       alert(JSON.stringify(error.response?.data));
     },
   });
+
+  // Si l'abonnement du technicien n'est pas actif, afficher un message pour l'informer et masquer les demandes disponibles
+  if (subscription?.status !== "active") {
+    return (
+      <div className="max-w-2xl mx-auto">
+        <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 text-center">
+          <h1 className="text-3xl font-bold text-[#07182E]">
+            Accès aux demandes indisponible
+          </h1>
+
+          <p className="text-gray-500 mt-4">
+            Votre abonnement est actuellement inactif.
+          </p>
+
+          <p className="text-gray-500 mt-2">
+            Activez votre abonnement pour consulter et accepter les demandes des
+            clients.
+          </p>
+
+          <Link
+            to="/technician/subscription"
+            className="inline-block mt-8 bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-2xl font-semibold transition"
+          >
+            Voir mon abonnement
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>
