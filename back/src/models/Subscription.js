@@ -25,6 +25,9 @@ User.hasMany(Subscription, {
 });
 
 Subscription.belongsTo(User, {
-  foreignKey: "user_id",
+  foreignKey: {
+    name: "user_id",
+    unique: true,
+  },
 });
 export default Subscription;

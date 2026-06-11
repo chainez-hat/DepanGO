@@ -23,12 +23,28 @@ function getSubscriptionById(req, res) {
 }
 
 // Créer un abonnement
+// Si un abonnement existe déjà pour cet utilisateur, on le met à jour
 function createSubscription(req, res) {
-  Subscription.create(req.body).then((newSubscription) => {
-    res.status(201).json({
-      message: "Abonnement créé",
-      newSubscription,
-    });
+  const { user_id } = req.body;
+
+  Subscription.findOne({
+    where: { user_id },
+  }).then((subscription) => {
+    if (subscription) {
+      subscription.update(req.body).then((updatedSubscription) => {
+        res.json({
+          message: "Abonnement mis à jour",
+          subscription: updatedSubscription,
+        });
+      });
+    } else {
+      Subscription.create(req.body).then((newSubscription) => {
+        res.status(201).json({
+          message: "Abonnement créé",
+          newSubscription,
+        });
+      });
+    }
   });
 }
 
