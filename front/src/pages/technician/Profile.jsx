@@ -1,16 +1,26 @@
 import { useQuery } from "@tanstack/react-query";
-import { getUserById } from "../../api/users.js";
+import { getProfile } from "../../api/users.js";
 
 export default function Profile() {
-  const { data: userResponse } = useQuery({
+  const {
+    data: userResponse,
+    error,
+    isLoading,
+  } = useQuery({
     queryKey: ["profile"],
     queryFn: async () => {
-      return await getUserById(localStorage.getItem("user_id"));
+      return await getProfile();
     },
   });
+  if (isLoading) {
+    return <h1>Chargement...</h1>;
+  }
+
+  if (error) {
+    return <h1>Erreur lors du chargement du profil</h1>;
+  }
 
   const user = userResponse?.data;
-  <pre>{JSON.stringify(user, null, 2)}</pre>;
 
   return (
     <div>
@@ -20,54 +30,78 @@ export default function Profile() {
         Consultez vos informations personnelles.
       </p>
 
-      <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 max-w-4xl">
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="bg-gray-50 p-5 rounded-2xl">
-            <p className="text-sm text-gray-500">Nom</p>
+      <div className="w-full max-w-5xl bg-white rounded-3xl shadow-sm p-12 mx-auto">
+        <div className="grid grid-cols-2 gap-6">
+          <div>
+            <label className="block text-left text-sm font-medium text-gray-700 mb-2">
+              Prénom
+            </label>
 
-            <p className="font-semibold text-[#07182E] mt-1">
-              {user?.last_name}
-            </p>
-          </div>
-
-          <div className="bg-gray-50 p-5 rounded-2xl">
-            <p className="text-sm text-gray-500">Prénom</p>
-
-            <p className="font-semibold text-[#07182E] mt-1">
+            <div className="w-full border border-gray-300 rounded-xl px-4 py-3 bg-gray-50 text-left text-gray-700">
               {user?.first_name}
-            </p>
+            </div>
           </div>
 
-          <div className="bg-gray-50 p-5 rounded-2xl">
-            <p className="text-sm text-gray-500">Email</p>
+          <div>
+            <label className="block text-left text-sm font-medium text-gray-700 mb-2">
+              Nom
+            </label>
 
-            <p className="font-semibold text-[#07182E] mt-1">{user?.email}</p>
-          </div>
-
-          <div className="bg-gray-50 p-5 rounded-2xl">
-            <p className="text-sm text-gray-500">Téléphone</p>
-
-            <p className="font-semibold text-[#07182E] mt-1">{user?.phone}</p>
-          </div>
-
-          <div className="bg-gray-50 p-5 rounded-2xl">
-            <p className="text-sm text-gray-500">Rôle</p>
-
-            <p className="font-semibold text-[#07182E] mt-1">{user?.role}</p>
-          </div>
-
-          <div className="bg-gray-50 p-5 rounded-2xl">
-            <p className="text-sm text-gray-500">Disponibilité</p>
-
-            <p
-              className={`font-semibold mt-1 ${
-                user?.available ? "text-green-500" : "text-red-500"
-              }`}
-            >
-              {user?.available ? "Disponible" : "Indisponible"}
-            </p>
+            <div className="w-full border border-gray-300 rounded-xl px-4 py-3 bg-gray-50 text-left text-gray-700">
+              {user?.last_name}
+            </div>
           </div>
         </div>
+
+        <div className="mt-6">
+          <label className="block text-left text-sm font-medium text-gray-700 mb-2">
+            Email
+          </label>
+
+          <div className="w-full border border-gray-300 rounded-xl px-4 py-3 bg-gray-50 text-left text-gray-700">
+            {user?.email}
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <label className="block text-left text-sm font-medium text-gray-700 mb-2">
+            Téléphone
+          </label>
+
+          <div className="w-full border border-gray-300 rounded-xl px-4 py-3 bg-gray-50 text-left text-gray-700">
+            {user?.phone}
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <label className="block text-left text-sm font-medium text-gray-700 mb-2">
+            Rôle
+          </label>
+
+          <div className="w-full border border-gray-300 rounded-xl px-4 py-3 bg-gray-50 text-left text-gray-700">
+            {user?.role}
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <label className="block text-left text-sm font-medium text-gray-700 mb-2">
+            Disponibilité
+          </label>
+
+          <div
+            className={`w-full border rounded-xl px-4 py-3 text-left font-medium ${
+              user?.available
+                ? "border-green-300 bg-green-50 text-green-600"
+                : "border-red-300 bg-red-50 text-red-600"
+            }`}
+          >
+            {user?.available ? "Disponible" : "Indisponible"}
+          </div>
+        </div>
+
+        <button className="w-full mt-8 bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-xl font-semibold transition">
+          Modifier mon profil
+        </button>
       </div>
     </div>
   );
