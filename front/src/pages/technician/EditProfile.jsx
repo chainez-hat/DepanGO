@@ -1,6 +1,9 @@
 import { useForm } from "react-hook-form";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router";
 import { getProfile } from "../../api/users.js";
+import { updateProfile } from "../../api/users.js";
 
 export default function EditProfile() {
   // Récupérer les données du profil de l'utilisateur pour pré-remplir le formulaire
@@ -11,6 +14,7 @@ export default function EditProfile() {
     },
   });
 
+  // Pré-remplir le formulaire avec les données du profil de l'utilisateur
   const user = userResponse?.data;
 
   const { register, handleSubmit } = useForm({
@@ -21,8 +25,35 @@ export default function EditProfile() {
     },
   });
 
+  // useMutation pour mettre à jour le profil de l'utilisateur
+  const navigate = useNavigate();
+
+  const updateProfileMutation = useMutation({
+    mutationFn: async (data) => {
+      return await updateProfile(data);
+    },
+
+    // Invalider la requête du profil après la mise à jour pour récupérer les nouvelles données
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["profile"],
+      });
+
+      alert("Profil mis à jour");
+      navigate("/technician/profile");
+    },
+
+    onError: (error) => {
+      alert(JSON.stringify(error.response?.data));
+    },
+  });
+
+  // useQueryClient pour invalider la requête du profil après la mise à jour
+  const queryClient = useQueryClient();
+
+  // Fonction pour gérer la soumission du formulaire
   function onSubmit(data) {
-    console.log(data);
+    updateProfileMutation.mutate(data);
   }
 
   return (
