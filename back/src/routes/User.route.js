@@ -13,6 +13,13 @@ userRouter.get(
   UserController.getProfile,
 );
 
+userRouter.put(
+  "/profile",
+  (req, res, next) =>
+    AuthMiddleware(req, res, next, ["TECHNICIAN", "ADMIN"]),
+  UserController.updateProfile,
+);
+
 // Admin
 userRouter.use((req, res, next) => AuthMiddleware(req, res, next, ["ADMIN"]));
 

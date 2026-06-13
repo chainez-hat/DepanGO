@@ -64,13 +64,19 @@ function deleteUser(req, res) {
 // Modification
 function updateUser(req, res) {
   const { id } = req.params;
-  const { email, password, role } = req.body;
+  const { first_name, last_name, phone, email, password, role, available } =
+    req.body;
 
   User.findOne({ where: { id } }).then((user) => {
     if (user) {
+      user.first_name = first_name || user.first_name;
+      user.last_name = last_name || user.last_name;
+      user.phone = phone || user.phone;
       user.email = email || user.email;
       user.password = password || user.password;
       user.role = role || user.role;
+      user.available =
+        available !== undefined ? available : user.available;
 
       user.save().then((updatedUser) => {
         res.json(updatedUser);
@@ -96,9 +102,23 @@ function getUserById(req, res) {
 function findUserByEmail(email) {
   return User.findOne({ where: { email } });
 }
-
+// Récupérer le profil de l'utilisateur connecté
 function getProfile(req, res) {
   res.json(req.user);
+}
+// Mettre à jour le profil de l'utilisateur connecté par le technicien
+function updateProfile(req, res) {
+  const { first_name, last_name, phone } = req.body;
+
+  User.findByPk(req.user.id).then((user) => {
+    user.first_name = first_name || user.first_name;
+    user.last_name = last_name || user.last_name;
+    user.phone = phone || user.phone;
+
+    user.save().then((updatedUser) => {
+      res.json(updatedUser);
+    });
+  });
 }
 
 export default {
@@ -109,4 +129,5 @@ export default {
   getUserById,
   findUserByEmail,
   getProfile,
+  updateProfile,
 };
