@@ -1,7 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { getProfile } from "../../api/users.js";
+import { useNavigate } from "react-router";
 
 export default function Profile() {
+  const navigate = useNavigate();
   const {
     data: userResponse,
     error,
@@ -99,7 +101,10 @@ export default function Profile() {
           </div>
         </div>
 
-        <button className="w-full mt-8 bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-xl font-semibold transition">
+        <button
+          onClick={() => navigate("/technician/profile/edit")}
+          className="w-full mt-8 bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-xl font-semibold transition"
+        >
           Modifier mon profil
         </button>
       </div>
