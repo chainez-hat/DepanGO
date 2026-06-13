@@ -7,6 +7,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { getRequests } from "../../api/requests.js";
 import { getSubscriptions } from "../../api/subscriptions.js";
+import { getProfile } from "../../api/users.js";
 
 export default function TechnicianDashboard() {
   // charger les demandes disponibles pour le technicien
@@ -26,6 +27,16 @@ export default function TechnicianDashboard() {
       return await getSubscriptions();
     },
   });
+
+  // useQuery pour récupérer le profil du technicien
+  const { data: userResponse } = useQuery({
+    queryKey: ["profile"],
+    queryFn: async () => {
+      return await getProfile();
+    },
+  });
+
+  const user = userResponse?.data;
 
   const subscriptions = subscriptionsResponse?.data || [];
 
@@ -61,7 +72,20 @@ export default function TechnicianDashboard() {
         Bienvenue sur votre espace technicien.
       </p>
 
-      <div className="grid grid-cols-2 gap-6 mt-8">
+      {/* Afficher le statut de disponibilité du technicien */}
+      <div
+        className={`inline-flex items-center mt-6 px-6 py-3 rounded-full text-base font-semibold ${
+          user?.available
+            ? "bg-green-100 text-green-700"
+            : "bg-red-100 text-red-700"
+        }`}
+      >
+        <span className="mr-3 text-lg">{user?.available ? "🟢" : "🔴"}</span>
+
+        {user?.available ? "Disponible" : "Indisponible"}
+      </div>
+
+      <div className="grid grid-cols-2 gap-6 mt-14">
         {/* Demandes disponibles */}
         <div className="bg-white rounded-3xl p-8 min-h-[220px] border border-gray-100 shadow-sm">
           <div className="flex items-center gap-3">
@@ -121,7 +145,7 @@ export default function TechnicianDashboard() {
           </div>
         </div>
 
-        {/* Disponibilité */}
+        {/* Interventions terminées */}
         <div className="bg-white rounded-3xl p-8 min-h-[220px] border border-gray-100 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
