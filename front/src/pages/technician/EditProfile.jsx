@@ -22,6 +22,7 @@ export default function EditProfile() {
       first_name: user?.first_name || "",
       last_name: user?.last_name || "",
       phone: user?.phone || "",
+      available: user?.available ?? false,
     },
   });
 
@@ -103,6 +104,21 @@ export default function EditProfile() {
             {...register("phone")}
             className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500"
           />
+        </div>
+
+        {/* Disponibilité */}
+        <div className="mt-6">
+          <label className="block text-left text-sm font-medium text-gray-700 mb-2">
+            Disponibilité
+          </label>
+
+          <select
+            {...register("available")}
+            className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500"
+          >
+            <option value="true">Disponible</option>
+            <option value="false">Indisponible</option>
+          </select>
         </div>
 
         <button

@@ -108,13 +108,14 @@ function getProfile(req, res) {
 }
 // Mettre à jour le profil de l'utilisateur connecté par le technicien
 function updateProfile(req, res) {
-  const { first_name, last_name, phone } = req.body;
+  console.log(req.body);
+  const { first_name, last_name, phone, available } = req.body;
 
   User.findByPk(req.user.id).then((user) => {
     user.first_name = first_name || user.first_name;
     user.last_name = last_name || user.last_name;
     user.phone = phone || user.phone;
-
+    user.available = available !== undefined ? available : user.available;
     user.save().then((updatedUser) => {
       res.json(updatedUser);
     });
