@@ -34,4 +34,8 @@ async function updateProfile(updatedUser) {
   return await instance.put("users/profile", updatedUser);
 }
 
-export { getUsers, createUser, updateUser, deleteUser, getUserById, getProfile, updateProfile };
+async function getProfileServices() {
+  return await instance.get("users/profile/services");
+}
+
+export { getUsers, createUser, updateUser, deleteUser, getUserById, getProfile, updateProfile, getProfileServices };

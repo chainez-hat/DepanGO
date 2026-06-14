@@ -1,9 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { getProfile } from "../../api/users.js";
+import { getProfile, getProfileServices } from "../../api/users.js";
 import { useNavigate } from "react-router";
 
 export default function Profile() {
   const navigate = useNavigate();
+
+  // Récupérer le profil du technicien connecté
   const {
     data: userResponse,
     error,
@@ -14,15 +16,30 @@ export default function Profile() {
       return await getProfile();
     },
   });
+
+  // Récupérer les spécialités du technicien connecté
+  const { data: servicesResponse } = useQuery({
+    queryKey: ["profile-services"],
+    queryFn: async () => {
+      return await getProfileServices();
+    },
+  });
+
+  // Afficher un message pendant le chargement du profil
   if (isLoading) {
     return <h1>Chargement...</h1>;
   }
 
+  // Afficher un message en cas d'erreur
   if (error) {
     return <h1>Erreur lors du chargement du profil</h1>;
   }
 
+  // Données du profil
   const user = userResponse?.data;
+
+  // Liste des spécialités du technicien
+  const services = servicesResponse?.data || [];
 
   return (
     <div>
@@ -98,6 +115,24 @@ export default function Profile() {
             }`}
           >
             {user?.available ? "Disponible" : "Indisponible"}
+          </div>
+        </div>
+
+        <div className="mt-6">
+          <label className="block text-left text-sm font-medium text-gray-700 mb-2">
+            Mes spécialités
+          </label>
+
+          <div className="w-full border border-gray-300 rounded-xl px-4 py-3 bg-gray-50 text-left text-gray-700">
+            {services.length > 0 ? (
+              <ul className="space-y-1">
+                {services.map((service) => (
+                  <li key={service.id}>• {service.name}</li>
+                ))}
+              </ul>
+            ) : (
+              "Aucune spécialité"
+            )}
           </div>
         </div>
 
