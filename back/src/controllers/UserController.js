@@ -163,6 +163,28 @@ async function addProfileService(req, res) {
   });
 }
 
+// Supprimer un service du profil de l'utilisateur connecté
+async function deleteProfileService(req, res) {
+  const { id } = req.params;
+
+  const user = await User.findByPk(req.user.id);
+
+  const service = await Service.findByPk(id);
+
+  if (!service) {
+    return res.status(404).json({
+      error: "Service non trouvé",
+    });
+  }
+
+  await user.removeService(service);
+
+  res.json({
+    message: "Spécialité supprimée",
+  });
+}
+
+
 export default {
   getUsers,
   createUser,
@@ -174,4 +196,5 @@ export default {
   updateProfile,
   getProfileServices,
   addProfileService,
+  deleteProfileService,
 };

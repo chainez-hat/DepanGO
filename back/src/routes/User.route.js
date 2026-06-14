@@ -37,6 +37,14 @@ userRouter.post(
   UserController.addProfileService,
 );
 
+// Route pour supprimer un service du profil de l'utilisateur connecté
+userRouter.delete(
+  "/profile/services/:id",
+  (req, res, next) =>
+    AuthMiddleware(req, res, next, ["TECHNICIAN", "ADMIN"]),
+  UserController.deleteProfileService,
+);
+
 // Admin
 userRouter.use((req, res, next) => AuthMiddleware(req, res, next, ["ADMIN"]));
 
