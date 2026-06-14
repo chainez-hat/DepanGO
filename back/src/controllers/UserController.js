@@ -142,6 +142,27 @@ async function getProfileServices(req, res) {
   res.json(user.Services);
 }
 
+// Ajouter un service au profil de l'utilisateur connecté
+async function addProfileService(req, res) {
+  const { service_id } = req.body;
+
+  const user = await User.findByPk(req.user.id);
+
+  const service = await Service.findByPk(service_id);
+
+  if (!service) {
+    return res.status(404).json({
+      error: "Service non trouvé",
+    });
+  }
+
+  await user.addService(service);
+
+  res.status(201).json({
+    message: "Spécialité ajoutée",
+  });
+}
+
 export default {
   getUsers,
   createUser,
@@ -152,4 +173,5 @@ export default {
   getProfile,
   updateProfile,
   getProfileServices,
+  addProfileService,
 };

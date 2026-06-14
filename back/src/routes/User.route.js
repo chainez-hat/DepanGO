@@ -29,6 +29,14 @@ userRouter.get(
   UserController.getProfileServices,
 );
 
+// Route pour ajouter un service au profil de l'utilisateur connecté
+userRouter.post(
+  "/profile/services",
+  (req, res, next) =>
+    AuthMiddleware(req, res, next, ["TECHNICIAN", "ADMIN"]),
+  UserController.addProfileService,
+);
+
 // Admin
 userRouter.use((req, res, next) => AuthMiddleware(req, res, next, ["ADMIN"]));
 

@@ -2,8 +2,11 @@ import { useForm } from "react-hook-form";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
-import { getProfile } from "../../api/users.js";
-import { updateProfile } from "../../api/users.js";
+import {
+  getProfile,
+  updateProfile,
+  getProfileServices,
+} from "../../api/users.js";
 
 export default function EditProfile() {
   // Récupérer les données du profil de l'utilisateur pour pré-remplir le formulaire
@@ -14,8 +17,19 @@ export default function EditProfile() {
     },
   });
 
+  // Récupérer les spécialités du technicien connecté
+  const { data: servicesResponse } = useQuery({
+    queryKey: ["profile-services"],
+    queryFn: async () => {
+      return await getProfileServices();
+    },
+  });
+
   // Pré-remplir le formulaire avec les données du profil de l'utilisateur
   const user = userResponse?.data;
+
+  // Liste des spécialités du technicien
+  const services = servicesResponse?.data || [];
 
   const { register, handleSubmit } = useForm({
     values: {
@@ -119,6 +133,25 @@ export default function EditProfile() {
             <option value="true">Disponible</option>
             <option value="false">Indisponible</option>
           </select>
+        </div>
+
+        {/* Mes spécialités */}
+        <div className="mt-6">
+          <label className="block text-left text-sm font-medium text-gray-700 mb-2">
+            Mes spécialités
+          </label>
+
+          <div className="w-full border border-gray-300 rounded-xl px-4 py-3 bg-gray-50 text-left text-gray-700">
+            {services.length > 0 ? (
+              <ul className="space-y-1">
+                {services.map((service) => (
+                  <li key={service.id}>• {service.name}</li>
+                ))}
+              </ul>
+            ) : (
+              "Aucune spécialité"
+            )}
+          </div>
         </div>
 
         <button
