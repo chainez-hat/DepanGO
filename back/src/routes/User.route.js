@@ -6,18 +6,27 @@ const userRouter = express.Router();
 
 
 // Route publique pour le profil de l'utilisateur connecté
+// Route pour récupérer le profil de l'utilisateur connecté
 userRouter.get(
   "/profile",
   (req, res, next) =>
     AuthMiddleware(req, res, next, ["TECHNICIAN", "ADMIN"]),
   UserController.getProfile,
 );
-
+// Route pour mettre à jour le profil de l'utilisateur connecté
 userRouter.put(
   "/profile",
   (req, res, next) =>
     AuthMiddleware(req, res, next, ["TECHNICIAN", "ADMIN"]),
   UserController.updateProfile,
+);
+
+// Route pour récupérer les services associés à l'utilisateur connecté
+userRouter.get(
+  "/profile/services",
+  (req, res, next) =>
+    AuthMiddleware(req, res, next, ["TECHNICIAN", "ADMIN"]),
+  UserController.getProfileServices,
 );
 
 // Admin

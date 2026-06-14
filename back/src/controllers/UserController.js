@@ -102,10 +102,14 @@ function getUserById(req, res) {
 function findUserByEmail(email) {
   return User.findOne({ where: { email } });
 }
+
+
 // Récupérer le profil de l'utilisateur connecté
 function getProfile(req, res) {
   res.json(req.user);
 }
+
+
 // Mettre à jour le profil de l'utilisateur connecté par le technicien
 function updateProfile(req, res) {
   console.log(req.body);
@@ -122,6 +126,22 @@ function updateProfile(req, res) {
   });
 }
 
+// Récupérer les services associés à l'utilisateur connecté
+async function getProfileServices(req, res) {
+  const user = await User.findByPk(req.user.id, {
+    include: [
+      {
+        model: Service,
+        through: {
+          attributes: [],
+        },
+      },
+    ],
+  });
+
+  res.json(user.Services);
+}
+
 export default {
   getUsers,
   createUser,
@@ -131,4 +151,5 @@ export default {
   findUserByEmail,
   getProfile,
   updateProfile,
+  getProfileServices,
 };
