@@ -38,4 +38,14 @@ async function getProfileServices() {
   return await instance.get("users/profile/services");
 }
 
-export { getUsers, createUser, updateUser, deleteUser, getUserById, getProfile, updateProfile, getProfileServices };
+async function addProfileService(service_id) {
+  return await instance.post("users/profile/services", {
+    service_id,
+  });
+}
+
+async function deleteProfileService(id) {
+  return await instance.delete(`users/profile/services/${id}`);
+}
+
+export { getUsers, createUser, updateUser, deleteUser, getUserById, getProfile, updateProfile, getProfileServices, addProfileService, deleteProfileService };

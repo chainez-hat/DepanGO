@@ -6,7 +6,10 @@ import {
   getProfile,
   updateProfile,
   getProfileServices,
+  addProfileService,
+  deleteProfileService,
 } from "../../api/users.js";
+import { getServices } from "../../api/services.js";
 
 export default function EditProfile() {
   // Récupérer les données du profil de l'utilisateur pour pré-remplir le formulaire
@@ -25,13 +28,24 @@ export default function EditProfile() {
     },
   });
 
+  // Récupérer la liste de tous les services
+  const { data: allServicesResponse } = useQuery({
+    queryKey: ["services"],
+    queryFn: async () => {
+      return await getServices();
+    },
+  });
+
   // Pré-remplir le formulaire avec les données du profil de l'utilisateur
   const user = userResponse?.data;
 
   // Liste des spécialités du technicien
   const services = servicesResponse?.data || [];
 
-  const { register, handleSubmit } = useForm({
+  // Liste de tous les services disponibles
+  const allServices = allServicesResponse?.data || [];
+
+  const { register, handleSubmit, watch } = useForm({
     values: {
       first_name: user?.first_name || "",
       last_name: user?.last_name || "",
@@ -39,16 +53,30 @@ export default function EditProfile() {
       available: user?.available ?? false,
     },
   });
+  // Service sélectionné dans la liste
+  const selectedService = watch("new_service");
+
+  // Ajouter une spécialité sélectionnée
+  function handleAddService() {
+    if (!selectedService) {
+      return;
+    }
+
+    addProfileServiceMutation.mutate(Number(selectedService));
+  }
 
   // useMutation pour mettre à jour le profil de l'utilisateur
   const navigate = useNavigate();
 
+  // useQueryClient pour invalider la requête du profil après la mise à jour
+  const queryClient = useQueryClient();
+
+  // Invalider la requête du profil après la mise à jour pour récupérer les nouvelles données
   const updateProfileMutation = useMutation({
     mutationFn: async (data) => {
       return await updateProfile(data);
     },
 
-    // Invalider la requête du profil après la mise à jour pour récupérer les nouvelles données
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["profile"],
@@ -63,8 +91,31 @@ export default function EditProfile() {
     },
   });
 
-  // useQueryClient pour invalider la requête du profil après la mise à jour
-  const queryClient = useQueryClient();
+  // Ajouter une spécialité au technicien
+  const addProfileServiceMutation = useMutation({
+    mutationFn: async (service_id) => {
+      return await addProfileService(service_id);
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["profile-services"],
+      });
+    },
+  });
+
+  // Supprimer une spécialité du technicien
+  const deleteProfileServiceMutation = useMutation({
+    mutationFn: async (id) => {
+      return await deleteProfileService(id);
+    },
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["profile-services"],
+      });
+    },
+  });
 
   // Fonction pour gérer la soumission du formulaire
   function onSubmit(data) {
@@ -107,7 +158,6 @@ export default function EditProfile() {
             />
           </div>
         </div>
-
         <div className="mt-6">
           <label className="block text-left text-sm font-medium text-gray-700 mb-2">
             Téléphone
@@ -119,7 +169,6 @@ export default function EditProfile() {
             className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500"
           />
         </div>
-
         {/* Disponibilité */}
         <div className="mt-6">
           <label className="block text-left text-sm font-medium text-gray-700 mb-2">
@@ -134,7 +183,6 @@ export default function EditProfile() {
             <option value="false">Indisponible</option>
           </select>
         </div>
-
         {/* Mes spécialités */}
         <div className="mt-6">
           <label className="block text-left text-sm font-medium text-gray-700 mb-2">
@@ -143,15 +191,57 @@ export default function EditProfile() {
 
           <div className="w-full border border-gray-300 rounded-xl px-4 py-3 bg-gray-50 text-left text-gray-700">
             {services.length > 0 ? (
-              <ul className="space-y-1">
+              <div className="flex flex-wrap gap-2">
                 {services.map((service) => (
-                  <li key={service.id}>• {service.name}</li>
+                  <div
+                    key={service.id}
+                    className="flex items-center gap-2 bg-orange-100 text-orange-700 px-3 py-2 rounded-full"
+                  >
+                    <span>{service.name}</span>
+
+                    <button
+                      type="button"
+                      onClick={() =>
+                        deleteProfileServiceMutation.mutate(service.id)
+                      }
+                      className="font-bold hover:text-red-600"
+                    >
+                      ✕
+                    </button>
+                  </div>
                 ))}
-              </ul>
+              </div>
             ) : (
               "Aucune spécialité"
             )}
           </div>
+        </div>
+
+        {/* Ajouter une spécialité */}
+        <div className="mt-6">
+          <label className="block text-left text-sm font-medium text-gray-700 mb-2">
+            Ajouter une spécialité
+          </label>
+
+          <select
+            {...register("new_service")}
+            className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500"
+          >
+            <option value="">Sélectionnez une spécialité</option>
+
+            {allServices.map((service) => (
+              <option key={service.id} value={service.id}>
+                {service.name}
+              </option>
+            ))}
+          </select>
+          <button
+            type="button"
+            onClick={handleAddService}
+            className="mt-3 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-xl font-medium transition"
+          >
+            Ajouter la spécialité
+          </button>
         </div>
 
         <button
