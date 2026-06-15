@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import router from "./src/routes/index.js";
 import { configDotenv } from "dotenv";
+import { sendEmail } from "./src/utils/mail.js";
 
 configDotenv(); // Charger les variables d'environnement depuis le fichier .env
 
