@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import electriciteIcon from "../assets/electricite.svg";
 import internetIcon from "../assets/internet.svg";
 import plomberieIcon from "../assets/plombrie.svg";
@@ -64,9 +65,12 @@ export default function ServiceSection() {
         </div>
 
         <div className="flex justify-center mt-12">
-          <button className="w-[260px] border border-orange-500 text-orange-500 py-3 rounded-md font-medium hover:bg-orange-500 hover:text-white transition">
+          <Link
+            to="/services"
+            className="w-[260px] border border-orange-500 text-orange-500 py-3 rounded-md font-medium hover:bg-orange-500 hover:text-white transition text-center"
+          >
             Voir tous les services
-          </button>
+          </Link>
         </div>
       </div>
     </section>
