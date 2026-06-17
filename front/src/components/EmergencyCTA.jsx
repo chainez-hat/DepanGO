@@ -3,7 +3,7 @@ import logo from "../assets/logo petit.svg";
 
 export default function EmergencyCTA() {
   return (
-    <section className="bg-[#F5F7FA] pb-16">
+    <section className="bg-[#F5F7FA] pt-16 pb-16">
       <div className="max-w-[1500px] mx-auto px-6">
         <div className="bg-[#07182E] rounded-md px-8 py-4 flex items-center justify-between shadow-md">
           <div className="flex items-center gap-5">
