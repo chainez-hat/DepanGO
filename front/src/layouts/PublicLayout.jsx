@@ -19,7 +19,8 @@ export default function PublicLayout() {
         <Navbar
           dark={
             location.pathname === "/become-technician" ||
-            location.pathname === "/services"
+            location.pathname === "/services" ||
+            location.pathname === "/how-it-works"
           }
         />
       )}
