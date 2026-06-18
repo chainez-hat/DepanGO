@@ -3,6 +3,7 @@ import { Outlet, useLocation } from "react-router";
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import ScrollToTopButton from "../components/ScrollToTopButton";
 
 export default function PublicLayout() {
   const location = useLocation();
@@ -28,6 +29,7 @@ export default function PublicLayout() {
       </main>
 
       {!hideLayout && <Footer />}
+      <ScrollToTopButton />
     </div>
   );
 }
