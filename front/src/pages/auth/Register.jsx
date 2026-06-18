@@ -94,7 +94,9 @@ export function Register() {
       <div className="min-h-screen bg-[#F5F7FA] flex items-center justify-center px-6 py-20">
         <div className="w-full max-w-5xl bg-white rounded-3xl shadow-sm p-12">
           <div className="flex items-center justify-between mb-8">
-            <img src={logoDark} alt="DepanGO" className="h-40" />
+            <Link to="/">
+              <img src={logoDark} alt="DepanGO" className="h-40" />
+            </Link>
 
             <div className="text-sm">
               <span className="text-gray-500">Déjà un compte?</span>

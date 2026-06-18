@@ -73,7 +73,9 @@ export function Login() {
       <div className="min-h-screen bg-[#F5F7FA] flex items-center justify-center px-6 py-20">
         <div className="w-full max-w-3xl">
           <div className="flex justify-center">
-            <img src={logoDark} alt="DepanGO" className="h-30" />
+            <Link to="/">
+              <img src={logoDark} alt="DepanGO" className="h-30" />
+            </Link>
           </div>
 
           <h1 className="text-center text-5xl font-bold text-[#07182E] mt-8">

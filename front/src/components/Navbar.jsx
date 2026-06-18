@@ -36,7 +36,13 @@ export default function Navbar({ dark = false }) {
       <div className="w-full px-8 flex items-center justify-between">
         {/* Logo */}
         <div>
-          <img src={dark ? logoDark : logo} alt="DepanGO" className="h-22" />
+          <Link to="/">
+            <img
+              src={dark ? logoDark : logo}
+              alt="DepanGO"
+              className="h-22 cursor-pointer"
+            />
+          </Link>
         </div>
 
         {/* Navigation */}

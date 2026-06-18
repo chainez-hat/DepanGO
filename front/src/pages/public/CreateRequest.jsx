@@ -1,7 +1,9 @@
+import { Link } from "react-router";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import logoDark from "../../assets/logodark.svg";
 
 import { getServices } from "../../api/services.js";
 import { createRequest } from "../../api/requests.js";
@@ -66,6 +68,11 @@ export default function CreateRequest() {
   return (
     <div className="min-h-screen bg-[#F5F7FA] py-20 px-6">
       <div className="max-w-5xl mx-auto bg-white rounded-3xl shadow-sm p-12">
+        <div className="flex justify-center mb-8">
+          <Link to="/">
+            <img src={logoDark} alt="DepanGO" className="h-32 cursor-pointer" />
+          </Link>
+        </div>
         <h1 className="text-4xl font-bold text-center text-[#07182E]">
           Créer une demande
         </h1>
