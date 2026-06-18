@@ -108,7 +108,7 @@ export default function Navbar({ dark = false }) {
 
               <Link
                 to="/auth/register"
-                className="bg-orange-500 px-4 py-2 rounded-md"
+                className="flex items-center gap-2 bg-orange-500 px-4 py-2 rounded-md border border-orange-500 transition hover:bg-transparent hover:text-orange-400 hover:border-orange-400"
               >
                 Inscription
               </Link>

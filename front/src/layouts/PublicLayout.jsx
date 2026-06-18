@@ -20,7 +20,8 @@ export default function PublicLayout() {
           dark={
             location.pathname === "/become-technician" ||
             location.pathname === "/services" ||
-            location.pathname === "/how-it-works"
+            location.pathname === "/how-it-works" ||
+            location.pathname === "/about"
           }
         />
       )}

@@ -12,6 +12,7 @@ import Services from "./pages/public/Services.jsx";
 import HowItWorks from "./pages/public/HowItWorks.jsx";
 import Dashboard from "./pages/admin/Dashboard.jsx";
 import TechnicianDashboard from "./pages/technician/Dashboard.jsx";
+import About from "./pages/public/About.jsx";
 import Requests from "./pages/technician/Requests.jsx";
 import Interventions from "./pages/technician/Interventions.jsx";
 import CompletedInterventions from "./pages/technician/CompletedInterventions.jsx";
@@ -46,6 +47,7 @@ createRoot(document.getElementById("root")).render(
             <Route path="/services" element={<Services />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/become-technician" element={<BecomeTechnician />} />
+            <Route path="/about" element={<About />} />
             <Route path="/request" element={<CreateRequest />} />
           </Route>
 
