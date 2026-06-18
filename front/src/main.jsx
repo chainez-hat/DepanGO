@@ -7,7 +7,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./index.css";
 import Home from "./pages/public/Home.jsx";
 import CreateRequest from "./pages/public/CreateRequest.jsx";
-import BecomeTechnician from "./pages/public/BecomeTechnician.jsx";
+import BecomeTechnician from "./pages/public/BecomeTechnician";
 import Services from "./pages/public/Services.jsx";
 import HowItWorks from "./pages/public/HowItWorks.jsx";
 import Dashboard from "./pages/admin/Dashboard.jsx";
