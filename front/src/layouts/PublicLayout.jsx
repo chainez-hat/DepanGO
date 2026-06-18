@@ -15,7 +15,12 @@ export default function PublicLayout() {
   return (
     <div>
       {!hideLayout && (
-        <Navbar dark={location.pathname === "/become-technician"} />
+        <Navbar
+          dark={
+            location.pathname === "/become-technician" ||
+            location.pathname === "/services"
+          }
+        />
       )}
 
       <main>

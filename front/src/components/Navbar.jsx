@@ -20,10 +20,19 @@ export default function Navbar({ dark = false }) {
 
   return (
     <nav
-      className={`absolute top-0 left-1/2 -translate-x-1/2 w-screen z-50 bg-transparent py-4 ${
-        dark ? "text-black" : "text-white"
+      className={`absolute top-0 left-1/2 -translate-x-1/2 w-screen z-50 py-4 ${
+        dark
+          ? "bg-white text-black border-b border-gray-200"
+          : "bg-transparent text-white"
       }`}
     >
+      {/* <nav
+  className={`absolute top-0 left-1/2 -translate-x-1/2 w-screen z-50 bg-transparent py-4 ${
+    dark ? "text-black" : "text-white"
+  }`}
+> */}
+
+      {/* Container */}
       <div className="w-full px-8 flex items-center justify-between">
         {/* Logo */}
         <div>

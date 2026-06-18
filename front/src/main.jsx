@@ -8,6 +8,7 @@ import "./index.css";
 import Home from "./pages/public/Home.jsx";
 import CreateRequest from "./pages/public/CreateRequest.jsx";
 import BecomeTechnician from "./pages/public/BecomeTechnician.jsx";
+import Services from "./pages/public/Services.jsx";
 import Dashboard from "./pages/admin/Dashboard.jsx";
 import TechnicianDashboard from "./pages/technician/Dashboard.jsx";
 import Requests from "./pages/technician/Requests.jsx";
@@ -41,6 +42,7 @@ createRoot(document.getElementById("root")).render(
             <Route index element={<Home />} />
             <Route path="/auth/login" element={<Login />} />
             <Route path="/auth/register" element={<Register />} />
+            <Route path="/services" element={<Services />} />
             <Route path="/become-technician" element={<BecomeTechnician />} />
             <Route path="/request" element={<CreateRequest />} />
           </Route>
