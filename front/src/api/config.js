@@ -18,7 +18,7 @@ instance.interceptors.request.use(
   },
   (error) => {
     console.log("une erreur est survenue:", error);
-    return Promise.reject(new Error(error));
+    return Promise.reject(error);
   },
 );
 

@@ -60,8 +60,12 @@ export function Login() {
           break;
       }
     },
-    onError: (error, variables, context) => {
-      alert(error.response?.data?.error);
+    onError: (error) => {
+      alert(
+        error.response?.data?.error ||
+          error.message ||
+          "Une erreur est survenue",
+      );
     },
   });
 
