@@ -1,7 +1,8 @@
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 import * as z from "zod";
 import logoDark from "../../assets/logodark.svg";
 
@@ -21,6 +22,12 @@ const requestSchema = z.object({
 
 // useForm avec zodResolver
 export default function CreateRequest() {
+  // Récupérer les paramètres de recherche de l'URL
+  const [searchParams] = useSearchParams();
+
+  const addressFromHero = searchParams.get("address") || "";
+  const serviceIdFromHero = searchParams.get("service_id") || "";
+
   const {
     register,
     handleSubmit,
@@ -29,7 +36,8 @@ export default function CreateRequest() {
   } = useForm({
     resolver: zodResolver(requestSchema),
     defaultValues: {
-      service_id: "",
+      adress_client: addressFromHero,
+      service_id: serviceIdFromHero,
     },
   });
 
@@ -43,6 +51,13 @@ export default function CreateRequest() {
 
   const services = servicesResponse?.data || [];
 
+  useEffect(() => {
+    reset({
+      adress_client: addressFromHero,
+      service_id: serviceIdFromHero,
+    });
+  }, [addressFromHero, serviceIdFromHero, reset]);
+
   // useMutationuseMutation pour créer une demande
   const createRequestMutation = useMutation({
     mutationFn: async (data) => {
@@ -55,7 +70,11 @@ export default function CreateRequest() {
     },
 
     onError: (error) => {
-      alert(JSON.stringify(error.response?.data));
+      alert(
+        error.response?.data?.error ||
+          error.message ||
+          "Une erreur est survenue",
+      );
     },
   });
 

@@ -1,9 +1,27 @@
+import { useState } from "react";
+import { useNavigate } from "react-router";
+import { useQuery } from "@tanstack/react-query";
+import { getServices } from "../api/services.js";
+
 import heroBg from "../assets/hero-bg.png";
 import okIcon from "../assets/ok.svg";
 import nikeIcon from "../assets/nike.svg";
 import electriciteIcon from "../assets/electricite.svg";
 
 export default function HeroSection() {
+  const navigate = useNavigate();
+
+  const [address, setAddress] = useState("");
+  const [serviceId, setServiceId] = useState("");
+
+  const { data: servicesResponse } = useQuery({
+    queryKey: ["services"],
+    queryFn: async () => {
+      return await getServices();
+    },
+  });
+
+  const services = servicesResponse?.data || [];
   return (
     <section className="relative left-1/2 right-1/2 w-screen -translate-x-1/2 overflow-hidden">
       <img
@@ -68,16 +86,35 @@ export default function HeroSection() {
             <input
               type="text"
               placeholder="Votre adresse"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
               className="px-6 py-3 w-72 outline-none text-gray-700"
             />
 
             <div className="w-px h-10 bg-gray-200"></div>
 
-            <select className="px-6 py-3 w-60 outline-none text-gray-700">
-              <option>Type de services</option>
+            <select
+              value={serviceId}
+              onChange={(e) => setServiceId(e.target.value)}
+              className="px-6 py-3 w-60 outline-none text-gray-700"
+            >
+              <option value="">Type de service</option>
+
+              {services.map((service) => (
+                <option key={service.id} value={service.id}>
+                  {service.name}
+                </option>
+              ))}
             </select>
 
-            <button className="ml-3 bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-md font-medium transition">
+            <button
+              onClick={() =>
+                navigate(
+                  `/request?address=${encodeURIComponent(address)}&service_id=${serviceId}`,
+                )
+              }
+              className="ml-3 bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-md font-medium transition"
+            >
               Trouver un dépanneur
             </button>
           </div>

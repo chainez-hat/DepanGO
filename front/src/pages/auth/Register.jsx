@@ -79,7 +79,11 @@ export function Register() {
     },
     onError: (error) => {
       //console.log(error.response?.data);
-      alert(JSON.stringify(error.response?.data));
+      alert(
+        error.response?.data?.error ||
+          error.message ||
+          "Une erreur est survenue",
+      );
       //console.log("ERREUR BACKEND :", error.response?.data);
     },
   });

@@ -44,7 +44,11 @@ export default function Interventions() {
     },
 
     onError: (error) => {
-      alert(JSON.stringify(error.response?.data));
+      alert(
+        error.response?.data?.error ||
+          error.message ||
+          "Une erreur est survenue",
+      );
     },
   });
 
@@ -65,7 +69,11 @@ export default function Interventions() {
     },
 
     onError: (error) => {
-      alert(JSON.stringify(error.response?.data));
+      alert(
+        error.response?.data?.error ||
+          error.message ||
+          "Une erreur est survenue",
+      );
     },
   });
 

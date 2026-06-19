@@ -87,7 +87,11 @@ export default function EditProfile() {
     },
 
     onError: (error) => {
-      alert(JSON.stringify(error.response?.data));
+      alert(
+        error.response?.data?.error ||
+          error.message ||
+          "Une erreur est survenue",
+      );
     },
   });
 
