@@ -4,6 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import * as z from "zod";
+import toast from "react-hot-toast";
+
 import logoDark from "../../assets/logodark.svg";
 
 import { getServices } from "../../api/services.js";
@@ -65,12 +67,13 @@ export default function CreateRequest() {
     },
 
     onSuccess: (response) => {
-      alert(response.data?.message);
+      console.log("TOAST TEST");
+      toast.success(response.data?.message);
       reset();
     },
 
     onError: (error) => {
-      alert(
+      toast.error(
         error.response?.data?.error ||
           error.message ||
           "Une erreur est survenue",

@@ -8,6 +8,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import toast from "react-hot-toast";
+
 const loginSchema = z.object({
   email: z.string().email("Veuillez saisir une adresse email valide"),
   password: z
@@ -61,7 +63,7 @@ export function Login() {
       }
     },
     onError: (error) => {
-      alert(
+      toast.error(
         error.response?.data?.error ||
           error.message ||
           "Une erreur est survenue",

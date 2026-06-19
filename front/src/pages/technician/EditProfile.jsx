@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 import {
   getProfile,
   updateProfile,
@@ -82,12 +83,12 @@ export default function EditProfile() {
         queryKey: ["profile"],
       });
 
-      alert("Profil mis à jour");
+      toast.success("Profil mis à jour");
       navigate("/technician/profile");
     },
 
     onError: (error) => {
-      alert(
+      toast.error(
         error.response?.data?.error ||
           error.message ||
           "Une erreur est survenue",

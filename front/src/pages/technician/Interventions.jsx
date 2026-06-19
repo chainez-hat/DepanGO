@@ -1,4 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 import {
   getRequests,
@@ -40,11 +41,11 @@ export default function Interventions() {
         queryKey: ["requests"],
       });
 
-      alert("Intervention annulée");
+      toast.success("Intervention annulée");
     },
 
     onError: (error) => {
-      alert(
+      toast.error(
         error.response?.data?.error ||
           error.message ||
           "Une erreur est survenue",
@@ -65,11 +66,11 @@ export default function Interventions() {
         queryKey: ["requests"],
       });
 
-      alert("Intervention terminée");
+      toast.success("Intervention terminée");
     },
 
     onError: (error) => {
-      alert(
+      toast.error(
         error.response?.data?.error ||
           error.message ||
           "Une erreur est survenue",

@@ -1,8 +1,10 @@
+import { Link } from "react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getRequests, acceptRequest } from "../../api/requests.js";
 
+import toast from "react-hot-toast";
+
 import { getSubscriptions } from "../../api/subscriptions.js";
-import { Link } from "react-router";
 
 export default function Requests() {
   const queryClient = useQueryClient();
@@ -52,11 +54,11 @@ export default function Requests() {
         queryKey: ["requests"],
       });
 
-      alert("Demande acceptée");
+      toast.success("Demande acceptée");
     },
 
     onError: (error) => {
-      alert(
+      toast.error(
         error.response?.data?.error ||
           error.message ||
           "Une erreur est survenue",

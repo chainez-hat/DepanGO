@@ -11,6 +11,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import toast from "react-hot-toast";
+
 import logoDark from "../../assets/logodark.svg";
 
 const registerSchema = z
@@ -74,12 +76,12 @@ export function Register() {
     onSuccess: (data, variables, context) => {
       // If you are logged
       //
-      alert(data.data?.message);
+      toast.success(data.data?.message);
       navigate("/auth/login");
     },
     onError: (error) => {
       //console.log(error.response?.data);
-      alert(
+      toast.error(
         error.response?.data?.error ||
           error.message ||
           "Une erreur est survenue",
