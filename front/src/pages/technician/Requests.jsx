@@ -5,6 +5,7 @@ import { getRequests, acceptRequest } from "../../api/requests.js";
 import toast from "react-hot-toast";
 
 import { getSubscriptions } from "../../api/subscriptions.js";
+import { getProfileServices } from "../../api/users.js";
 
 export default function Requests() {
   const queryClient = useQueryClient();
@@ -34,10 +35,23 @@ export default function Requests() {
       subscription.user_id === Number(localStorage.getItem("user_id")),
   );
 
-  // Filtrer les demandes pour n'afficher que celles qui sont en attente
-  const availableRequests = requests.filter(
-    (request) => request.status_request === "en_attente",
-  );
+  // useQuery pour récupérer les services du profil du technicien
+  const { data: profileServicesResponse } = useQuery({
+    queryKey: ["profile-services"],
+    queryFn: async () => {
+      return await getProfileServices();
+    },
+  });
+
+  const profileServices = profileServicesResponse?.data || [];
+
+  // Filtrer les demandes pour n'afficher que celles qui sont en attente et qui correspondent aux services du profil du technicien
+  const availableRequests = requests.filter((request) => {
+    return (
+      request.status_request === "en_attente" &&
+      profileServices.some((service) => service.id === request.service_id)
+    );
+  });
 
   // useMutation pour accepter une demande avec le bouton "Accepter
   const acceptRequestMutation = useMutation({
