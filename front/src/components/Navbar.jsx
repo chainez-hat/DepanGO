@@ -1,10 +1,12 @@
-import { FaUser } from "react-icons/fa";
+import { useState } from "react";
+import { FaUser, FaBars, FaTimes } from "react-icons/fa";
 
 import { Link } from "react-router";
 import logo from "../assets/logo.svg";
 import logoDark from "../assets/logodark.svg";
 
 export default function Navbar({ dark = false }) {
+  const [menuOpen, setMenuOpen] = useState(false);
   const email = localStorage.getItem("email");
   const firstName = localStorage.getItem("first_name");
   const lastName = localStorage.getItem("last_name");
@@ -33,7 +35,7 @@ export default function Navbar({ dark = false }) {
 > */}
 
       {/* Container */}
-      <div className="w-full px-8 flex items-center justify-between">
+      <div className="w-full px-6 flex items-center justify-between">
         {/* Logo */}
         <div>
           <Link to="/">
@@ -45,8 +47,15 @@ export default function Navbar({ dark = false }) {
           </Link>
         </div>
 
+        {/* Hamburger menu */}
+        <div className="lg:hidden">
+          <button onClick={() => setMenuOpen(!menuOpen)}>
+            {menuOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
+          </button>
+        </div>
+
         {/* Navigation */}
-        <ul className="flex gap-8 text-base font-medium">
+        <ul className="hidden lg:flex gap-8 text-base font-medium">
           <li>
             {/* <Link to="/">Accueil</Link> */}
             <Link to="/" className="hover:text-orange-400 transition">
@@ -88,7 +97,7 @@ export default function Navbar({ dark = false }) {
         </ul>
 
         {/* Auth */}
-        <div>
+        <div className="hidden lg:block">
           {email ? (
             <div className="flex items-center gap-4">
               <span>
@@ -122,6 +131,57 @@ export default function Navbar({ dark = false }) {
           )}
         </div>
       </div>
+
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div
+          className={`lg:hidden absolute top-full left-0 w-full h-[530px] ${
+            dark ? "bg-white text-black" : "bg-[#07182E] text-white"
+          } border-t border-gray-200 shadow-lg`}
+        >
+          <div className="flex flex-col p-6 gap-4">
+            <Link to="/" onClick={() => setMenuOpen(false)}>
+              Accueil
+            </Link>
+
+            <Link to="/services" onClick={() => setMenuOpen(false)}>
+              Services
+            </Link>
+
+            <Link to="/how-it-works" onClick={() => setMenuOpen(false)}>
+              Comment ça marche
+            </Link>
+
+            <Link to="/become-technician" onClick={() => setMenuOpen(false)}>
+              Devenir artisan
+            </Link>
+
+            <Link to="/about" onClick={() => setMenuOpen(false)}>
+              À propos
+            </Link>
+
+            {!email && (
+              <>
+                <Link
+                  to="/auth/login"
+                  onClick={() => setMenuOpen(false)}
+                  className="bg-orange-500 text-white px-4 py-3 rounded-md text-center"
+                >
+                  Connexion
+                </Link>
+
+                <Link
+                  to="/auth/register"
+                  onClick={() => setMenuOpen(false)}
+                  className="bg-orange-500 text-white px-4 py-3 rounded-md text-center"
+                >
+                  Inscription
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
