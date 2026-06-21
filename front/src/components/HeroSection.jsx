@@ -27,25 +27,25 @@ export default function HeroSection() {
       <img
         src={heroBg}
         alt="Technicien en intervention"
-        className="block w-full h-[750px] object-cover"
+        className="block w-full h-[650px] md:h-[750px] object-cover object-center"
       />
 
       {/* Contenu Hero */}
-      <div className="absolute inset-0 flex items-center mt-30">
-        <div className="max-w-4xl ml-20 text-left">
-          <h1 className="text-white text-6xl font-bold leading-tight">
+      <div className="absolute inset-0 flex items-center pt-24 md:pt-32">
+        <div className="max-w-4xl mx-auto px-6 lg:ml-20 text-center lg:text-left">
+          <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
             Dépannage rapide
             <br />
             en moins de <span className="text-orange-500">2h</span>
           </h1>
 
-          <p className="text-white text-3xl font-medium mt-6 leading-relaxed">
+          <p className="text-white text-lg md:text-2xl lg:text-3xl font-medium mt-6 leading-relaxed">
             Trouvez un technicien qualifié près de chez vous
             <br />
             en quelques clics.
           </p>
           {/* Bouton "Trouver un technicien" */}
-          <div className="flex items-center gap-10 mt-25 text-white">
+          <div className="hidden lg:flex items-center gap-10 mt-25 text-white">
             <div className="flex items-center gap-4">
               {/* Icône d'intervention rapide */}
               <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
@@ -82,21 +82,21 @@ export default function HeroSection() {
             </div>
           </div>
 
-          <div className="mt-12 bg-white rounded-md p-3 flex items-center w-[900px] shadow-lg justify-between">
+          <div className="mt-12 bg-white rounded-md p-4 flex flex-col lg:flex-row gap-4 lg:gap-0 w-full max-w-[900px] shadow-lg mx-auto lg:mx-0">
             <input
               type="text"
               placeholder="Votre adresse"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              className="px-6 py-3 w-72 outline-none text-gray-700"
+              className="px-6 py-3 w-full lg:w-72 outline-none text-gray-700"
             />
 
-            <div className="w-px h-10 bg-gray-200"></div>
+            <div className="hidden lg:block w-px h-10 bg-gray-200"></div>
 
             <select
               value={serviceId}
               onChange={(e) => setServiceId(e.target.value)}
-              className="px-6 py-3 w-60 outline-none text-gray-700"
+              className="px-6 py-3 w-full lg:w-60 outline-none text-gray-700"
             >
               <option value="">Type de service</option>
 
@@ -113,7 +113,7 @@ export default function HeroSection() {
                   `/request?address=${encodeURIComponent(address)}&service_id=${serviceId}`,
                 )
               }
-              className="ml-3 bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-md font-medium transition"
+              className="w-full lg:w-auto lg:ml-3 bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-md font-medium transition"
             >
               Trouver un dépanneur
             </button>
