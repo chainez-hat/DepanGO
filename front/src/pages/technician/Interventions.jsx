@@ -80,19 +80,21 @@ export default function Interventions() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-[#07182E]">Mes interventions</h1>
+      <h1 className="text-2xl md:text-3xl font-bold text-[#07182E]">
+        Mes interventions
+      </h1>
 
       <p className="text-gray-500 mt-2 mb-12">
         Retrouvez toutes les demandes que vous avez acceptées.
       </p>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {interventions.map((request) => (
           <div
             key={request.id}
-            className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100"
+            className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100"
           >
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
               <h2 className="text-2xl font-bold text-[#07182E]">
                 {request.Service?.name}
               </h2>
@@ -128,7 +130,7 @@ export default function Interventions() {
               </p>
             </div>
 
-            <div className="mt-4 bg-gray-50 p-4 rounded-2xl min-h-[180px]">
+            <div className="mt-4 bg-gray-50 p-4 rounded-2xl min-h-[140px] md:min-h-[180px]">
               <p className="text-xs text-gray-500 mb-2">Description</p>
 
               <p className="font-semibold text-[#07182E]">
@@ -137,7 +139,7 @@ export default function Interventions() {
             </div>
 
             {/* buttons pour terminer ou annuler l'intervention*/}
-            <div className="mt-6 grid grid-cols-2 gap-4">
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
               <button
                 type="button"
                 onClick={() => completeRequestMutation.mutate(request.id)}
