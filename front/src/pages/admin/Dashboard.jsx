@@ -1,11 +1,8 @@
-import Users from "./Users.jsx";
-
-
 function Dashboard() {
   return (
-    <>
-      <Users />
-    </>
+    <div>
+      <h1 className="text-3xl font-bold">Tableau de bord Admin</h1>
+    </div>
   );
 }
 
