@@ -11,10 +11,10 @@ export default function Footer() {
   return (
     <footer className="bg-[#07182E] text-white">
       <div className="max-w-[1500px] mx-auto py-16">
-        <div className="grid grid-cols-4 gap-20 ml-20 mr-20 text-left">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-20 px-6 lg:px-20 text-left">
           {/* Colonne 1 */}
           <div>
-            <img src={logo} alt="DepanGO" className="h-14 mb-5" />
+            <img src={logo} alt="DepanGO" className="h-12 lg:h-14 mb-5" />
 
             <p className="text-gray-300 leading-7 max-w-xs">
               DepanGO vous met en relation avec des artisans qualifiés pour des
@@ -82,8 +82,8 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t border-white/10 mt-12 pt-6">
-          <div className="flex flex-wrap items-center justify-between gap-4 text-sm text-gray-300">
-            <div className="flex flex-wrap gap-8">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-6 text-sm text-gray-300 px-6">
+            <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-8 text-center lg:text-left">
               <span>© 2026 DepanGO. Tous droits réservés</span>
               <span>Politique de confidentialité</span>
               <span>Mentions légales</span>
