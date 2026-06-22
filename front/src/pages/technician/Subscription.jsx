@@ -19,7 +19,7 @@ export default function Subscription() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-[#07182E] text-center">
+      <h1 className="text-2xl md:text-3xl font-bold text-[#07182E] text-center">
         Mon abonnement
       </h1>
 
@@ -27,8 +27,8 @@ export default function Subscription() {
         Gérez votre abonnement DepanGO.
       </p>
 
-      <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 max-w-2xl mx-auto">
-        <div className="flex items-center justify-between">
+      <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100 max-w-2xl mx-auto">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
             <h2 className="text-2xl font-bold text-[#07182E]">
               Abonnement Mensuel
@@ -50,7 +50,7 @@ export default function Subscription() {
           </div>
         </div>
 
-        <div className="mt-8 grid grid-cols-2 gap-6">
+        <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div className="bg-gray-50 p-5 rounded-2xl">
             <p className="text-sm text-gray-500 text-center">Date de début</p>
 
