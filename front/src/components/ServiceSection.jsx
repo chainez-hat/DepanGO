@@ -37,15 +37,15 @@ export default function ServiceSection() {
   return (
     <section className="bg-[#F5F7FA] pt-26 pb-16">
       <div className="max-w-[1500px] mx-auto px-6">
-        <h2 className="text-5xl font-bold text-center text-[#07182E]">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-[#07182E]">
           Nos services
         </h2>
 
-        <div className="grid grid-cols-5 gap-10 mt-16 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-10 mt-16 w-full">
           {services.map((service) => (
             <div
               key={service.title}
-              className="bg-white rounded-xl shadow-md p-8 text-center min-h-[220px] flex flex-col justify-center hover:shadow-lg transition"
+              className="bg-white rounded-xl shadow-md p-6 lg:p-8 text-center min-h-[220px] flex flex-col justify-center hover:shadow-lg transition"
             >
               <img
                 src={service.icon}
@@ -67,7 +67,7 @@ export default function ServiceSection() {
         <div className="flex justify-center mt-12">
           <Link
             to="/services"
-            className="w-[260px] border border-orange-500 text-orange-500 py-3 rounded-md font-medium hover:bg-orange-500 hover:text-white transition text-center"
+            className="w-full max-w-[260px] border border-orange-500 text-orange-500 py-3 rounded-md font-medium hover:bg-orange-500 hover:text-white transition text-center"
           >
             Voir tous les services
           </Link>
