@@ -52,13 +52,13 @@ export default function Services() {
           </span>
           <div className="w-20 h-1 bg-orange-500 mx-auto mt-4 rounded-full"></div>
 
-          <h1 className="text-6xl font-bold text-[#07182E] mt-16 leading-tight">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#07182E] mt-10 lg:mt-16 leading-tight">
             Des solutions de dépannage
             <br />
             pour tous vos besoins
           </h1>
 
-          <p className="text-gray-600 text-xl mt-6 max-w-3xl mx-auto">
+          <p className="text-gray-600 text-lg md:text-xl mt-6 max-w-3xl mx-auto">
             Des artisans qualifiés interviennent rapidement chez vous, 7j/7 et
             24h/24 pour tous vos dépannages.
           </p>
@@ -68,11 +68,11 @@ export default function Services() {
       {/* Cartes */}
       <section className="pb-24">
         <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-5 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-8">
             {services.map((service) => (
               <div
                 key={service.title}
-                className="bg-white rounded-2xl shadow-sm p-8 text-center"
+                className="bg-white rounded-2xl shadow-sm p-6 lg:p-8 text-center"
               >
                 <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto">
                   <img
@@ -105,7 +105,7 @@ export default function Services() {
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center">
-            <h2 className="text-5xl font-bold text-[#07182E]">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[#07182E]">
               Pourquoi choisir DepanGO ?
             </h2>
 
@@ -114,7 +114,7 @@ export default function Services() {
               et fiable.
             </p>
 
-            <h3 className="text-3xl font-semibold text-[#07182E] mt-6">
+            <h3 className="text-2xl md:text-3xl font-semibold text-[#07182E] mt-6">
               Dépannage rapide en moins de{" "}
               <span className="text-orange-500">2h</span>
             </h3>
@@ -128,8 +128,8 @@ export default function Services() {
             <div className="w-24 h-1 bg-orange-500 mx-auto mt-8 rounded-full"></div>
           </div>
 
-          <div className="grid grid-cols-3 gap-10 mt-16">
-            <div className="bg-[#F5F7FA] rounded-3xl p-10 text-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10 mt-16">
+            <div className="bg-[#F5F7FA] rounded-3xl p-6 lg:p-10 text-center">
               <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto shadow-sm">
                 <img
                   src={electriciteIcon}
@@ -147,7 +147,7 @@ export default function Services() {
               </p>
             </div>
 
-            <div className="bg-[#F5F7FA] rounded-3xl p-10 text-center">
+            <div className="bg-[#F5F7FA] rounded-3xl p-6 lg:p-10 text-center">
               <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto shadow-sm">
                 <img
                   src={nikeIcon}
