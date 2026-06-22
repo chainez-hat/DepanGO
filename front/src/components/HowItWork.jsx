@@ -30,19 +30,19 @@ export default function WowItWork() {
   return (
     <section className="bg-[#ECEFF3] py-16">
       <div className="max-w-[1500px] mx-auto px-6">
-        <h2 className="text-5xl font-bold text-center text-[#07182E]">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-[#07182E]">
           Comment ça marche ?
         </h2>
 
-        <div className="grid grid-cols-4 gap-10 mt-14">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 mt-14">
           {steps.map((step) => (
-            <div key={step.title} className="flex items-start gap-4">
+            <div key={step.title} className="flex items-start gap-4 w-full">
               <div className="w-18 h-18 bg-white rounded-full flex items-center justify-center shadow-md flex-shrink-0">
                 <img src={step.icon} alt={step.title} className="w-12 h-12" />
               </div>
 
               <div className="text-left">
-                <h3 className="text-xl font-semibold text-[#07182E]">
+                <h3 className="text-lg lg:text-xl font-semibold text-[#07182E]">
                   {step.title}
                 </h3>
 
