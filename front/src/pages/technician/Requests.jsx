@@ -84,7 +84,7 @@ export default function Requests() {
   if (subscription?.status !== "active") {
     return (
       <div className="max-w-2xl mx-auto">
-        <div className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 text-center">
+        <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100 text-center">
           <h1 className="text-3xl font-bold text-[#07182E]">
             Accès aux demandes indisponible
           </h1>
@@ -111,20 +111,22 @@ export default function Requests() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6">Demandes disponibles</h1>
+      <h1 className="text-2xl md:text-3xl font-bold mb-6">
+        Demandes disponibles
+      </h1>
 
       <p className="text-gray-500 mt-2 mb-12">
         Consultez et acceptez les demandes des clients.
       </p>
 
       {/* <pre>{JSON.stringify(requests, null, 2)}</pre> */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {availableRequests.map((request) => (
           <div
             key={request.id}
-            className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-md transition"
+            className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100 hover:shadow-md transition"
           >
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
               <h2 className="text-2xl font-bold text-[#07182E]">
                 {request.Service?.name}
               </h2>
@@ -168,7 +170,7 @@ export default function Requests() {
               </p>
             </div>
 
-            <div className="mt-4 bg-gray-50 p-4 rounded-2xl min-h-[180px]">
+            <div className="mt-4 bg-gray-50 p-4 rounded-2xl min-h-[140px] md:min-h-[180px]">
               <p className="text-xs text-gray-500 mb-2">Description</p>
 
               <p className="font-semibold text-[#07182E]">
