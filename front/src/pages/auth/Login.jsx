@@ -80,11 +80,15 @@ export function Login() {
         <div className="w-full max-w-3xl">
           <div className="flex justify-center">
             <Link to="/">
-              <img src={logoDark} alt="DepanGO" className="h-30" />
+              <img
+                src={logoDark}
+                alt="DepanGO"
+                className="h-20 md:h-24 lg:h-30"
+              />
             </Link>
           </div>
 
-          <h1 className="text-center text-5xl font-bold text-[#07182E] mt-8">
+          <h1 className="text-center text-3xl md:text-4xl lg:text-5xl font-bold text-[#07182E] mt-8">
             Connexion
           </h1>
 
@@ -92,7 +96,7 @@ export function Login() {
             Connectez-vous à votre compte pour continuer
           </p>
 
-          <div className="bg-white rounded-3xl shadow-sm p-10">
+          <div className="bg-white rounded-3xl shadow-sm p-6 md:p-8 lg:p-10">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div>
                 <label className="block text-left text-base font-medium text-[#07182E] mb-2">
@@ -119,7 +123,7 @@ export function Login() {
                   className="w-full border border-gray-300 rounded-xl px-4 py-3 text-base focus:outline-none focus:border-orange-500"
                 />
 
-                <div className="flex items-center justify-between mt-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-6">
                   <label className="flex items-center gap-2 text-gray-600 text-sm">
                     <input type="checkbox" className="accent-orange-500" />
                     Se souvenir de moi

@@ -98,10 +98,14 @@ export function Register() {
   return (
     <>
       <div className="min-h-screen bg-[#F5F7FA] flex items-center justify-center px-6 py-20">
-        <div className="w-full max-w-5xl bg-white rounded-3xl shadow-sm p-12">
-          <div className="flex items-center justify-between mb-8">
+        <div className="w-full max-w-5xl bg-white rounded-3xl shadow-sm p-6 md:p-8 lg:p-12">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
             <Link to="/">
-              <img src={logoDark} alt="DepanGO" className="h-40" />
+              <img
+                src={logoDark}
+                alt="DepanGO"
+                className="h-24 md:h-32 lg:h-40"
+              />
             </Link>
 
             <div className="text-sm">
@@ -116,7 +120,7 @@ export function Register() {
             </div>
           </div>
 
-          <h1 className="text-4xl font-bold text-center text-[#07182E]">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center text-[#07182E]">
             Créer un compte
           </h1>
 
@@ -134,7 +138,7 @@ export function Register() {
           <form className="mt-10" onSubmit={handleSubmit(onSubmit)}>
             <input type="hidden" value="TECHNICIAN" {...register("role")} />
 
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-left text-sm font-medium text-gray-700 mb-2">
                   Prénom *
@@ -188,7 +192,7 @@ export function Register() {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-6 mt-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
               <div>
                 <label className="block text-left text-sm font-medium text-gray-700 mb-2">
                   Mot de passe *
