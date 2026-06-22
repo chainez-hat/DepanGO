@@ -43,14 +43,16 @@ export default function Profile() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-[#07182E]">Mon profil</h1>
+      <h1 className="text-2xl md:text-3xl font-bold text-[#07182E]">
+        Mon profil
+      </h1>
 
       <p className="text-gray-500 mt-2 mb-12">
         Consultez vos informations personnelles.
       </p>
 
-      <div className="w-full max-w-5xl bg-white rounded-3xl shadow-sm p-12 mx-auto">
-        <div className="grid grid-cols-2 gap-6">
+      <div className="w-full max-w-5xl bg-white rounded-3xl shadow-sm p-6 md:p-8 lg:p-12 mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-left text-sm font-medium text-gray-700 mb-2">
               Prénom
@@ -125,7 +127,7 @@ export default function Profile() {
 
           <div className="w-full border border-gray-300 rounded-xl px-4 py-3 bg-gray-50 text-left text-gray-700">
             {services.length > 0 ? (
-              <ul className="space-y-1">
+              <ul className="space-y-2 break-words">
                 {services.map((service) => (
                   <li key={service.id}>• {service.name}</li>
                 ))}
