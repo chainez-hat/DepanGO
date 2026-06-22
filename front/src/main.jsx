@@ -21,6 +21,7 @@ import CompletedInterventions from "./pages/technician/CompletedInterventions.js
 import Subscription from "./pages/technician/Subscription.jsx";
 import Profile from "./pages/technician/Profile.jsx";
 import EditProfile from "./pages/technician/EditProfile.jsx";
+import Technicians from "./pages/admin/Technicians.jsx";
 import AdminLayout from "./layouts/AdminLayout.jsx";
 import PublicLayout from "./layouts/PublicLayout.jsx";
 import TechnicianLayout from "./layouts/TechnicianLayout.jsx";
@@ -63,6 +64,7 @@ createRoot(document.getElementById("root")).render(
             }
           >
             <Route index element={<Dashboard />} />
+            <Route path="technicians" element={<Technicians />} />
           </Route>
 
           {/* Routes privées */}
