@@ -64,8 +64,8 @@ export default function TechnicianDashboard() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-[#07182E]">
-        Bonjour {localStorage.getItem("first_name")} 👋
+      <h1 className="text-2xl md:text-3xl font-bold text-[#07182E]">
+        Bonjour {localStorage.getItem("first_name")} {/*👋*/}
       </h1>
 
       <p className="text-gray-500 mt-2">
@@ -74,7 +74,7 @@ export default function TechnicianDashboard() {
 
       {/* Afficher le statut de disponibilité du technicien */}
       <div
-        className={`inline-flex items-center mt-6 px-6 py-3 rounded-full text-base font-semibold ${
+        className={`inline-flex items-center mt-6 px-4 md:px-6 py-3 rounded-full text-sm md:text-base font-semibold ${
           user?.available
             ? "bg-green-100 text-green-700"
             : "bg-red-100 text-red-700"
@@ -85,9 +85,9 @@ export default function TechnicianDashboard() {
         {user?.available ? "Disponible" : "Indisponible"}
       </div>
 
-      <div className="grid grid-cols-2 gap-6 mt-14">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-14">
         {/* Demandes disponibles */}
-        <div className="bg-white rounded-3xl p-8 min-h-[220px] border border-gray-100 shadow-sm">
+        <div className="bg-white rounded-3xl p-6 lg:p-8 min-h-[180px] lg:min-h-[220px] border border-gray-100 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center">
               <FaClipboardList className="text-orange-500 text-xl" />
@@ -104,7 +104,7 @@ export default function TechnicianDashboard() {
         </div>
 
         {/* Interventions acceptées */}
-        <div className="bg-white rounded-3xl p-8 min-h-[220px] border border-gray-100 shadow-sm">
+        <div className="bg-white rounded-3xl p-6 lg:p-8 min-h-[180px] lg:min-h-[220px] border border-gray-100 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center">
               <FaTools className="text-blue-500 text-xl" />
@@ -123,7 +123,7 @@ export default function TechnicianDashboard() {
         </div>
 
         {/* Mon abonnement */}
-        <div className="bg-white rounded-3xl p-8 min-h-[220px] border border-gray-100 shadow-sm">
+        <div className="bg-white rounded-3xl p-6 lg:p-8 min-h-[180px] lg:min-h-[220px] border border-gray-100 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-orange-100 flex items-center justify-center">
               <FaCreditCard className="text-orange-500 text-xl" />
@@ -146,7 +146,7 @@ export default function TechnicianDashboard() {
         </div>
 
         {/* Interventions terminées */}
-        <div className="bg-white rounded-3xl p-8 min-h-[220px] border border-gray-100 shadow-sm">
+        <div className="bg-white rounded-3xl p-6 lg:p-8 min-h-[180px] lg:min-h-[220px] border border-gray-100 shadow-sm">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-green-100 flex items-center justify-center">
               <FaCheckCircle className="text-green-500 text-xl" />
