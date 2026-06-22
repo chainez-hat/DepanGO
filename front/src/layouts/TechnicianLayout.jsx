@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import {
   FaHome,
   FaClipboardList,
@@ -6,12 +8,15 @@ import {
   FaUser,
   FaBell,
   FaCheckCircle,
+  FaBars,
 } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
 import { NavLink, Outlet } from "react-router";
 import logoDark from "../assets/logodark.svg";
 
 export default function TechnicianLayout() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   function handleLogout() {
     localStorage.removeItem("email");
     localStorage.removeItem("role");
@@ -22,12 +27,24 @@ export default function TechnicianLayout() {
   }
 
   return (
-    <div className="min-h-screen flex">
+    <div className="min-h-screen flex relative">
       {/* Sidebar */}
-      <aside className="w-72 bg-white border-r border-gray-200 flex flex-col">
+      <aside
+        className={`fixed lg:static top-0 left-0 h-full w-72 bg-white border-r border-gray-200 flex flex-col z-50 transition-transform duration-300 ${
+          menuOpen ? "translate-x-0" : "-translate-x-full"
+        } lg:translate-x-0`}
+      >
         {/* Sidebar */}
-        <div className="pt-0 pb-6 flex justify-center">
-          <img src={logoDark} alt="DepanGO" className="h-24" />
+        {/*ajouter un bouton ✕ dans la sidebar por la version mobile*/}
+        <div className="pt-4 pb-6 flex items-center justify-between px-4">
+          <img src={logoDark} alt="DepanGO" className="h-20" />
+
+          <button
+            onClick={() => setMenuOpen(false)}
+            className="lg:hidden text-2xl text-[#07182E]"
+          >
+            ✕
+          </button>
         </div>
 
         <nav className="px-4 mt-6 flex-1">
@@ -35,6 +52,7 @@ export default function TechnicianLayout() {
             <li>
               <NavLink
                 to="/technician"
+                onClick={() => setMenuOpen(false)}
                 end
                 className={({ isActive }) =>
                   isActive
@@ -52,6 +70,7 @@ export default function TechnicianLayout() {
             <li>
               <NavLink
                 to="/technician/requests"
+                onClick={() => setMenuOpen(false)}
                 className={({ isActive }) =>
                   isActive
                     ? "block px-5 py-4 rounded-2xl bg-gray-100 text-orange-500 font-semibold"
@@ -68,6 +87,7 @@ export default function TechnicianLayout() {
             <li>
               <NavLink
                 to="/technician/interventions"
+                onClick={() => setMenuOpen(false)}
                 className={({ isActive }) =>
                   isActive
                     ? "block px-5 py-4 rounded-2xl bg-gray-100 text-orange-500 font-semibold"
@@ -84,6 +104,7 @@ export default function TechnicianLayout() {
             <li>
               <NavLink
                 to="/technician/completed-interventions"
+                onClick={() => setMenuOpen(false)}
                 className={({ isActive }) =>
                   isActive
                     ? "block px-5 py-4 rounded-2xl bg-gray-100 text-orange-500 font-semibold"
@@ -100,6 +121,7 @@ export default function TechnicianLayout() {
             <li>
               <NavLink
                 to="/technician/subscription"
+                onClick={() => setMenuOpen(false)}
                 className={({ isActive }) =>
                   isActive
                     ? "block px-5 py-4 rounded-2xl bg-gray-100 text-orange-500 font-semibold"
@@ -116,6 +138,7 @@ export default function TechnicianLayout() {
             <li>
               <NavLink
                 to="/technician/profile"
+                onClick={() => setMenuOpen(false)}
                 className={({ isActive }) =>
                   isActive
                     ? "block px-5 py-4 rounded-2xl bg-gray-100 text-orange-500 font-semibold"
@@ -133,7 +156,10 @@ export default function TechnicianLayout() {
 
         <div className="px-5 pb-6 mt-auto">
           <button
-            onClick={handleLogout}
+            onClick={() => {
+              setMenuOpen(false);
+              handleLogout();
+            }}
             className="flex items-center gap-3 px-5 py-4 text-[#07182E] hover:text-orange-500 transition"
           >
             <FiLogOut size={20} />
@@ -145,13 +171,23 @@ export default function TechnicianLayout() {
       {/* Partie droite */}
       <div className="flex-1 bg-[#F5F7FA]">
         {/* Header */}
-        <header className="h-20 bg-white border-b border-gray-200 flex items-center justify-end px-8">
+        <header className="h-20 bg-white border-b border-gray-200 flex items-center justify-between px-6 lg:px-8">
+          {/* Burger mobile */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="lg:hidden text-[#07182E]"
+          >
+            <FaBars size={24} />
+          </button>
+
+          <div className="hidden lg:block"></div>
+
           <div className="flex items-center gap-6">
             <button className="text-[#07182E] hover:text-orange-500 transition">
               <FaBell size={20} />
             </button>
+
             <div className="flex items-center gap-4">
-              {/* Avatar */}
               <div className="w-11 h-11 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold">
                 {localStorage.getItem("first_name")?.charAt(0)}
               </div>
