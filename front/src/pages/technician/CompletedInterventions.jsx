@@ -19,7 +19,7 @@ export default function CompletedInterventions() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold text-[#07182E]">
+      <h1 className="text-2xl md:text-3xl font-bold text-[#07182E]">
         Interventions terminées
       </h1>
 
@@ -27,13 +27,13 @@ export default function CompletedInterventions() {
         Retrouvez l'historique de toutes vos interventions terminées.
       </p>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {interventions.map((request) => (
           <div
             key={request.id}
-            className="bg-white rounded-3xl p-8 shadow-sm border border-gray-100"
+            className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100"
           >
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3">
               <h2 className="text-2xl font-bold text-[#07182E]">
                 {request.Service?.name}
               </h2>
@@ -69,7 +69,7 @@ export default function CompletedInterventions() {
               </p>
             </div>
 
-            <div className="mt-4 bg-gray-50 p-4 rounded-2xl min-h-[180px]">
+            <div className="mt-4 bg-gray-50 p-4 rounded-2xl min-h-[140px] md:min-h-[180px]">
               <p className="text-xs text-gray-500 mb-2">Description</p>
 
               <p className="font-semibold text-[#07182E]">
