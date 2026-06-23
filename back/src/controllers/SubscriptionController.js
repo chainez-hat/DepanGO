@@ -1,8 +1,22 @@
 import Subscription from "../models/Subscription.js";
+import User from "../models/User.js";
 
 // Liste des abonnements
-function getSubscriptions(req, res) {
+/*function getSubscriptions(req, res) {
   Subscription.findAll().then((subscriptions) => {
+    res.json(subscriptions);
+  });
+}*/
+
+
+function getSubscriptions(req, res) {
+  Subscription.findAll({
+    include: [
+      {
+        model: User,
+      },
+    ],
+  }).then((subscriptions) => {
     res.json(subscriptions);
   });
 }
