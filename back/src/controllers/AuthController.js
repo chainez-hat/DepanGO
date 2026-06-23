@@ -9,13 +9,13 @@ function login(req, res) {
   // Sequelize
   User.findOne({ where: { email } }).then((user) => {
     if (!user) {
-      return res.status(401).json({ error: "Invalid credentials" });
+      return res.status(401).json({ error: "Email ou mot de passe incorrect" });
     }
 
     // Functions utilisateurs
     comparePassword(password, user.password).then((isMatch) => {
       if (!isMatch) {
-        return res.status(401).json({ error: "Invalid credentials" });
+        return res.status(401).json({ error: "Email ou mot de passe incorrect" });
       }
 
       // jwt librairie
