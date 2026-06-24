@@ -5,7 +5,7 @@ import { getRequests, acceptRequest } from "../../api/requests.js";
 import toast from "react-hot-toast";
 
 import { getSubscriptions } from "../../api/subscriptions.js";
-import { getProfileServices } from "../../api/users.js";
+import { getProfile, getProfileServices } from "../../api/users.js";
 
 export default function Requests() {
   const queryClient = useQueryClient();
@@ -19,6 +19,17 @@ export default function Requests() {
   });
 
   const requests = requestsResponse?.data || [];
+
+  /////
+  const { data: profileResponse } = useQuery({
+    queryKey: ["profile"],
+    queryFn: async () => {
+      return await getProfile();
+    },
+  });
+
+  const profile = profileResponse?.data;
+  /////
 
   // useQuery pour récupérer l'abonnement du technicien
   const { data: subscriptionsResponse } = useQuery({
@@ -79,6 +90,31 @@ export default function Requests() {
       );
     },
   });
+
+  // Bloquer l'accès si le technicien est indisponible
+  if (profile?.available === false) {
+    return (
+      <div className="max-w-2xl mx-auto">
+        <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-gray-100 text-center">
+          <h1 className="text-3xl font-bold text-[#07182E]">
+            Vous êtes indisponible
+          </h1>
+
+          <p className="text-gray-500 mt-4">
+            Modifiez votre disponibilité dans votre profil pour recevoir des
+            demandes.
+          </p>
+
+          <Link
+            to="/technician/profile/edit"
+            className="inline-block mt-8 bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-2xl font-semibold transition"
+          >
+            Modifier mon profil
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   // Si l'abonnement du technicien n'est pas actif, afficher un message pour l'informer et masquer les demandes disponibles
   if (subscription?.status !== "active") {
