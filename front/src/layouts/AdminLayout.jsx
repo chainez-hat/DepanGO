@@ -161,7 +161,7 @@ export default function AdminLayout() {
         </header>
 
         {/* Contenu */}
-        <main className="flex-1 p-4 md:p-6 lg:p-8 bg-gray-50">
+        <main role="main" className="flex-1 p-4 md:p-6 lg:p-8 bg-gray-50">
           <Outlet />
         </main>
       </div>

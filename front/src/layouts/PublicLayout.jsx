@@ -26,7 +26,7 @@ export default function PublicLayout() {
         />
       )}
 
-      <main>
+      <main role="main">
         <Outlet />
       </main>
 
