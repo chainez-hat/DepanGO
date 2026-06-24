@@ -20,10 +20,15 @@ async function deleteSubscription(id) {
   return await instance.delete(`/subscriptions/${id}`);
 }
 
+async function getMySubscription() {
+  return await instance.get("/subscriptions/me");
+}
+
 export { 
   getSubscriptions, 
   getSubscriptionByUserId,
   createSubscription,
   updateSubscription,
   deleteSubscription,
+  getMySubscription,
  };

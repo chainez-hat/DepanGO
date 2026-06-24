@@ -4,7 +4,7 @@ import { getRequests, acceptRequest } from "../../api/requests.js";
 
 import toast from "react-hot-toast";
 
-import { getSubscriptions } from "../../api/subscriptions.js";
+import { getMySubscription } from "../../api/subscriptions.js";
 import { getProfile, getProfileServices } from "../../api/users.js";
 
 export default function Requests() {
@@ -32,19 +32,14 @@ export default function Requests() {
   /////
 
   // useQuery pour récupérer l'abonnement du technicien
-  const { data: subscriptionsResponse } = useQuery({
-    queryKey: ["subscriptions"],
+  const { data: subscriptionResponse } = useQuery({
+    queryKey: ["my-subscription"],
     queryFn: async () => {
-      return await getSubscriptions();
+      return await getMySubscription();
     },
   });
 
-  const subscriptions = subscriptionsResponse?.data || [];
-
-  const subscription = subscriptions.find(
-    (subscription) =>
-      subscription.user_id === Number(localStorage.getItem("user_id")),
-  );
+  const subscription = subscriptionResponse?.data;
 
   // useQuery pour récupérer les services du profil du technicien
   const { data: profileServicesResponse } = useQuery({

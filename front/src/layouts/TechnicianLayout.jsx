@@ -30,7 +30,7 @@ export default function TechnicianLayout() {
     <div className="min-h-screen flex relative">
       {/* Sidebar */}
       <aside
-        className={`fixed lg:static top-0 left-0 h-full w-72 bg-white border-r border-gray-200 flex flex-col z-50 transition-transform duration-300 ${
+        className={`fixed lg:static top-0 left-0 h-full lg:h-screen w-72 bg-white border-r border-gray-200 flex flex-col z-50 transition-transform duration-300 ${
           menuOpen ? "translate-x-0" : "-translate-x-full"
         } lg:translate-x-0`}
       >

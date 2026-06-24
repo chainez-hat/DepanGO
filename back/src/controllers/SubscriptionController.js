@@ -89,6 +89,17 @@ function deleteSubscription(req, res) {
     });
   });
 }
+//Récupérer le statut de l'abonnement associés à l'utilisateur connecté
+function getMySubscription(req, res) {
+  Subscription.findOne({
+    where: {
+      user_id: req.user.id,
+    },
+  }).then((subscription) => {
+    res.json(subscription);
+  });
+}
+
 
 export default {
   getSubscriptions,
@@ -96,4 +107,5 @@ export default {
   createSubscription,
   updateSubscription,
   deleteSubscription,
+  getMySubscription,
 };

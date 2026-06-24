@@ -1,7 +1,24 @@
 import express from "express";
 import SubscriptionController from "../controllers/SubscriptionController.js";
+import AuthMiddleware from "../middlewares/AuthMiddleware.js";
 
 const subscriptionRouter = express.Router();
+
+
+// TECHNICIAN + ADMIN
+// Récupérer son propre abonnement
+subscriptionRouter.get(
+  "/me",
+  (req, res, next) =>
+    AuthMiddleware(req, res, next, ["TECHNICIAN", "ADMIN"]),
+  SubscriptionController.getMySubscription,
+);
+
+
+// ADMIN UNIQUEMENT
+subscriptionRouter.use((req, res, next) =>
+  AuthMiddleware(req, res, next, ["ADMIN"]),
+);
 
 // Liste des abonnements
 subscriptionRouter.get("/", SubscriptionController.getSubscriptions);

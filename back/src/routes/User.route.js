@@ -9,39 +9,34 @@ const userRouter = express.Router();
 // Route pour récupérer le profil de l'utilisateur connecté
 userRouter.get(
   "/profile",
-  (req, res, next) =>
-    AuthMiddleware(req, res, next, ["TECHNICIAN", "ADMIN"]),
+  (req, res, next) => AuthMiddleware(req, res, next, ["TECHNICIAN", "ADMIN"]),
   UserController.getProfile,
 );
 // Route pour mettre à jour le profil de l'utilisateur connecté
 userRouter.put(
   "/profile",
-  (req, res, next) =>
-    AuthMiddleware(req, res, next, ["TECHNICIAN", "ADMIN"]),
+  (req, res, next) => AuthMiddleware(req, res, next, ["TECHNICIAN", "ADMIN"]),
   UserController.updateProfile,
 );
 
 // Route pour récupérer les services associés à l'utilisateur connecté
 userRouter.get(
   "/profile/services",
-  (req, res, next) =>
-    AuthMiddleware(req, res, next, ["TECHNICIAN", "ADMIN"]),
+  (req, res, next) => AuthMiddleware(req, res, next, ["TECHNICIAN", "ADMIN"]),
   UserController.getProfileServices,
 );
 
 // Route pour ajouter un service au profil de l'utilisateur connecté
 userRouter.post(
   "/profile/services",
-  (req, res, next) =>
-    AuthMiddleware(req, res, next, ["TECHNICIAN", "ADMIN"]),
+  (req, res, next) => AuthMiddleware(req, res, next, ["TECHNICIAN", "ADMIN"]),
   UserController.addProfileService,
 );
 
 // Route pour supprimer un service du profil de l'utilisateur connecté
 userRouter.delete(
   "/profile/services/:id",
-  (req, res, next) =>
-    AuthMiddleware(req, res, next, ["TECHNICIAN", "ADMIN"]),
+  (req, res, next) => AuthMiddleware(req, res, next, ["TECHNICIAN", "ADMIN"]),
   UserController.deleteProfileService,
 );
 

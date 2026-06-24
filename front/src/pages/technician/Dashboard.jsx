@@ -6,7 +6,7 @@ import {
 } from "react-icons/fa";
 import { useQuery } from "@tanstack/react-query";
 import { getRequests } from "../../api/requests.js";
-import { getSubscriptions } from "../../api/subscriptions.js";
+import { getMySubscription } from "../../api/subscriptions.js";
 import { getProfile } from "../../api/users.js";
 
 export default function TechnicianDashboard() {
@@ -21,12 +21,14 @@ export default function TechnicianDashboard() {
   const requests = requestsResponse?.data || [];
 
   // useQuery pour récupérer l'abonnement du technicien
-  const { data: subscriptionsResponse } = useQuery({
-    queryKey: ["subscriptions"],
+  const { data: subscriptionResponse } = useQuery({
+    queryKey: ["my-subscription"],
     queryFn: async () => {
-      return await getSubscriptions();
+      return await getMySubscription();
     },
   });
+
+  const subscription = subscriptionResponse?.data;
 
   // useQuery pour récupérer le profil du technicien
   const { data: userResponse } = useQuery({
@@ -37,13 +39,6 @@ export default function TechnicianDashboard() {
   });
 
   const user = userResponse?.data;
-
-  const subscriptions = subscriptionsResponse?.data || [];
-
-  const subscription = subscriptions.find(
-    (subscription) =>
-      subscription.user_id === Number(localStorage.getItem("user_id")),
-  );
 
   // Filtrer les demandes pour n'afficher que celles qui sont en attente, acceptées et terminées pour le technicien connecté
   const availableRequests = requests.filter(

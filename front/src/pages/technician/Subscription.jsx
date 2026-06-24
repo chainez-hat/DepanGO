@@ -1,21 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
-import { getSubscriptions } from "../../api/subscriptions.js";
+import { getMySubscription } from "../../api/subscriptions.js";
 
 export default function Subscription() {
   // Charger les abonnements pour le technicien connecté
-  const { data: subscriptionsResponse } = useQuery({
-    queryKey: ["subscriptions"],
+  const { data: subscriptionResponse } = useQuery({
+    queryKey: ["my-subscription"],
     queryFn: async () => {
-      return await getSubscriptions();
+      return await getMySubscription();
     },
   });
 
-  const subscriptions = subscriptionsResponse?.data || [];
-
-  const subscription = subscriptions.find(
-    (subscription) =>
-      subscription.user_id === Number(localStorage.getItem("user_id")),
-  );
+  const subscription = subscriptionResponse?.data;
 
   return (
     <div>
