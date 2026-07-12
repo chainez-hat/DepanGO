@@ -1,21 +1,45 @@
 import express from "express";
 import RequestController from "../controllers/RequestController.js";
+import AuthMiddleware from "../middlewares/AuthMiddleware.js";
 
 const requestRouter = express.Router();
 
-// Liste des demandes
-requestRouter.get("/", RequestController.getRequests);
 
-// Récupérer une demande par ID
-requestRouter.get("/:id", RequestController.getRequestById);
-
-// Créer une demande
+// Route publice pour créer une demande
 requestRouter.post("/", RequestController.createRequest);
 
-// Modifier une demande
-requestRouter.put("/:id", RequestController.updateRequest);
+// TECHNICIAN routes//
+// Liste des demandes
+requestRouter.get(
+  "/",
+  (req, res, next) =>
+    AuthMiddleware(req, res, next, ["TECHNICIAN"]),
+  RequestController.getRequests,
+);
 
-// Supprimer une demande
-requestRouter.delete("/:id", RequestController.deleteRequest);
+// Récupérer une demande par ID
+requestRouter.get(
+  "/:id",
+  (req, res, next) =>
+    AuthMiddleware(req, res, next, ["TECHNICIAN"]),
+  RequestController.getRequestById,
+);
+
+// Modifier une demande
+requestRouter.put(
+  "/:id",
+  (req, res, next) =>
+    AuthMiddleware(req, res, next, ["TECHNICIAN"]),
+  RequestController.updateRequest,
+);
+
+//ADMIN uniquement por Supprimer une demande
+//À développer ultérieurement
+requestRouter.delete(
+  "/:id",
+  (req, res, next) =>
+    AuthMiddleware(req, res, next, ["ADMIN"]),
+  RequestController.deleteRequest,
+);
 
 export default requestRouter;
