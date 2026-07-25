@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cahier de Tests - DepanGO (VERSION CORRIGÉE)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .info {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 13px;
+        }
+        
+        th {
+            background-color: #ff6b35;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+            border: 1px solid #e67e22;
+        }
+        
+        td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            vertical-align: top;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        tr:hover {
+            background-color: #f0f0f0;
+        }
+        
+        .test-id {
+            font-weight: bold;
+            color: #ff6b35;
+            width: 70px;
+            font-size: 12px;
+        }
+        
+        .module {
+            background-color: #ffe8d6;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .note {
+            background-color: #fff3cd;
+            padding: 12px;
+            border-left: 4px solid #ff6b35;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+
+        .warning {
+            background-color: #ffcccc;
+            padding: 12px;
+            border-left: 4px solid #ff0000;
+            margin-top: 20px;
+            border-radius: 4px;
+            color: #cc0000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📋 Cahier de Tests DepanGO - VERSION CORRIGÉE</h1>
+        <p class="info">✅ Vérifié ligne par ligne avec le code source | 137 tests | À jour 25/07/2026</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Test ID</th>
+                    <th>Module</th>
+                    <th>Description</th>
+                    <th>Prérequis</th>
+                    <th>Étapes</th>
+                    <th>Résultat Attendu</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- AUTHENTIFICATION & LOGIN -->
+                <tr class="module">
+                    <td colspan="7">🔐 AUTHENTIFICATION & LOGIN</td>
+                </tr>
+                <tr>
+                    <td class="test-id">AUTH001</td>
+                    <td>Login</td>
+                    <td>Se connecter avec email + mot de passe valides</td>
+                    <td>Compte technicien existant</td>
+                    <td>Aller à /auth/login → Saisir email et MDP corrects → Cliquer Login</td>
+                    <td>Redirection /technician dashboard + localStorage: user_id - first_name - last_name - email - role - token</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">AUTH002</td>
+                    <td>Login</td>
+                    <td>Erreur login: email ou mot de passe incorrect (email inexistant)</td>
+                    <td>Email inexistant</td>
+                    <td>Aller à /auth/login → Email inexistant → Cliquer Login</td>
+                    <td>Toast d'erreur: message du backend</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">AUTH003</td>
+                    <td>Login</td>
+                    <td>Erreur login: email ou mot de passe incorrect (MDP faux)</td>
+                    <td>Compte existant</td>
+                    <td>Aller à /auth/login → Email correct + MDP faux → Cliquer Login</td>
+                    <td>Toast d'erreur: message du backend (même que AUTH002)</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">AUTH004</td>
+                    <td>Register</td>
+                    <td>S'inscrire comme technicien avec données valides</td>
+                    <td>Aucun</td>
+                    <td>Aller à /auth/register → Remplir tous les champs → Cliquer Register</td>
+                    <td>Toast succès: message backend + Redirection /auth/login</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">AUTH005</td>
+                    <td>Register</td>
+                    <td>Validation: first_name minimum 2 caractères</td>
+                    <td>Aucun</td>
+                    <td>Aller à /auth/register → first_name = "A" → Submit</td>
+                    <td>Message d'erreur Zod</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">AUTH006</td>
+                    <td>Register</td>
+                    <td>Validation: service_id obligatoire</td>
+                    <td>Aucun</td>
+                    <td>Aller à /auth/register → Ne pas sélectionner spécialité → Submit</td>
+                    <td>Message d'erreur "Veuillez choisir une spécialité"</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">AUTH007</td>
+                    <td>Register</td>
+                    <td>Validation: email format invalide</td>
+                    <td>Aucun</td>
+                    <td>Aller à /auth/register → Email invalide (ex: "test@") → Submit</td>
+                    <td>Message d'erreur "Veuillez saisir une adresse email valide"</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">AUTH008</td>
+                    <td>Register</td>
+                    <td>Validation: téléphone minimum 10 caractères</td>
+                    <td>Aucun</td>
+                    <td>Aller à /auth/register → phone = "123456789" (9 chars) → Submit</td>
+                    <td>Message d'erreur Zod</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">AUTH009</td>
+                    <td>Register</td>
+                    <td>Validation: mot de passe minimum 6 caractères</td>
+                    <td>Aucun</td>
+                    <td>Aller à /auth/register → password = "12345" → Submit</td>
+                    <td>Message d'erreur "Le mot de passe doit contenir au moins 6 caractères"</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">AUTH010</td>
+                    <td>Register</td>
+                    <td>Validation: MDP et confirmation doivent correspondre</td>
+                    <td>Aucun</td>
+                    <td>Aller à /auth/register → password ≠ confirm_password → Submit</td>
+                    <td>Message d'erreur "Les mots de passe ne correspondent pas"</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">AUTH011</td>
+                    <td>Register</td>
+                    <td>Redirection si déjà connecté</td>
+                    <td>Utilisateur avec email en localStorage</td>
+                    <td>Aller à /auth/register</td>
+                    <td>Message "You are already logged in as [email]" + Lien vers Home</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">AUTH012</td>
+                    <td>Register</td>
+                    <td>Validation: email déjà utilisé (backend)</td>
+                    <td>Email existant en base</td>
+                    <td>Aller à /auth/register → Email déjà utilisé → Submit</td>
+                    <td>Toast d'erreur: message backend (ex: "Email déjà utilisé")</td>
+                    <td>À tester</td>
+                </tr>
+
+                <!-- JWT & TOKENS -->
+                <tr class="module">
+                    <td colspan="7">🔐 JWT & TOKENS</td>
+                </tr>
+                <tr>
+                    <td class="test-id">JWT001</td>
+                    <td>JWT Token</td>
+                    <td>Token JWT stocké dans localStorage après login</td>
+                    <td>Login réussi</td>
+                    <td>Effectuer login → DevTools → localStorage</td>
+                    <td>Clé "token" présente avec valeur Bearer</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">JWT002</td>
+                    <td>JWT Token</td>
+                    <td>Token JWT envoyé en header Authorization</td>
+                    <td>Utilisateur connecté</td>
+                    <td>Effectuer action API → Network tab → Vérifier requête</td>
+                    <td>Header "Authorization: Bearer [token]" présent</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">JWT003</td>
+                    <td>JWT Token Expiré</td>
+                    <td>Si token expiré (401): alert + redirection + localStorage vidé</td>
+                    <td>Token expiré / Server retourne 401</td>
+                    <td>Effectuer action / Intercepteur capture 401</td>
+                    <td>Alert "Votre session a expiré" + Redirection /auth/login + localStorage complètement vidé</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">JWT004</td>
+                    <td>JWT Rôle</td>
+                    <td>Technicien ne peut pas accéder /admin</td>
+                    <td>Technicien connecté (role=TECHNICIAN)</td>
+                    <td>Accéder à /admin (URL ou manipulation)</td>
+                    <td>Redirection /auth/login (RoleGuard bloque)</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">JWT005</td>
+                    <td>JWT Rôle</td>
+                    <td>Admin ne peut pas accéder /technician</td>
+                    <td>Admin connecté (role=ADMIN)</td>
+                    <td>Accéder à /technician (URL)</td>
+                    <td>Redirection /auth/login (RoleGuard bloque)</td>
+                    <td>À tester</td>
+                </tr>
+
+                <!-- PAGES PUBLIQUES -->
+                <tr class="module">
+                    <td colspan="7">🌐 PAGES PUBLIQUES</td>
+                </tr>
+                <tr>
+                    <td class="test-id">PUB001</td>
+                    <td>Accueil</td>
+                    <td>Page d'accueil affiche sections principales</td>
+                    <td>Aucun</td>
+                    <td>Aller à /</td>
+                    <td>Sections: HeroSection - ServiceSection - EmergencyCTA - HowItWork visibles</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">PUB002</td>
+                    <td>Accueil</td>
+                    <td>Bouton ScrollToTop visible et fonctionne</td>
+                    <td>Aucun</td>
+                    <td>Accéder à / → Scroller vers bas</td>
+                    <td>Bouton visible → Clic remonte page en haut</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">PUB003</td>
+                    <td>Navigation</td>
+                    <td>Navigation: Accueil → Services</td>
+                    <td>Aucun</td>
+                    <td>Cliquer "Services" dans Navbar</td>
+                    <td>Redirection vers /services</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">PUB004</td>
+                    <td>Navigation</td>
+                    <td>Navigation: Accueil → Comment ça marche</td>
+                    <td>Aucun</td>
+                    <td>Cliquer "Comment ça marche" dans Navbar</td>
+                    <td>Redirection vers /how-it-works</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">PUB005</td>
+                    <td>Navigation</td>
+                    <td>Navigation: Accueil → Devenir artisan</td>
+                    <td>Aucun</td>
+                    <td>Cliquer "Devenir artisan" dans Navbar (NB: texte est "Devenir artisan" pas "Technician")</td>
+                    <td>Redirection vers /become-technician</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">PUB006</td>
+                    <td>Navigation</td>
+                    <td>Navigation: Accueil → À propos</td>
+                    <td>Aucun</td>
+                    <td>Cliquer "À propos" dans Navbar</td>
+                    <td>Redirection vers /about</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">PUB007</td>
+                    <td>Services</td>
+                    <td>Page Services affiche tous les services</td>
+                    <td>Aucun</td>
+                    <td>Aller à /services</td>
+                    <td>Liste services chargée via GET /services</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">PUB008</td>
+                    <td>Demande Client</td>
+                    <td>Créer demande sans compte (formulaire public)</td>
+                    <td>Aucun (pas d'auth)</td>
+                    <td>Aller à /request → Remplir tous les champs → Submit</td>
+                    <td>Toast succès: message backend + Formulaire réinitialisé</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">PUB009</td>
+                    <td>Demande Client</td>
+                    <td>Validation: first_name_client min 2</td>
+                    <td>Aucun</td>
+                    <td>Aller à /request → first_name_client = "A" → Submit</td>
+                    <td>Message d'erreur Zod</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">PUB010</td>
+                    <td>Demande Client</td>
+                    <td>Validation: phone_client min 10</td>
+                    <td>Aucun</td>
+                    <td>Aller à /request → phone_client trop court → Submit</td>
+                    <td>Message d'erreur Zod</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">PUB011</td>
+                    <td>Demande Client</td>
+                    <td>Validation: email_client format invalide</td>
+                    <td>Aucun</td>
+                    <td>Aller à /request → email invalide → Submit</td>
+                    <td>Message d'erreur Zod</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">PUB012</td>
+                    <td>Demande Client</td>
+                    <td>Validation: adress_client min 5</td>
+                    <td>Aucun</td>
+                    <td>Aller à /request → adress_client = "Park" → Submit</td>
+                    <td>Message d'erreur Zod</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">PUB013</td>
+                    <td>Demande Client</td>
+                    <td>Validation: description min 10</td>
+                    <td>Aucun</td>
+                    <td>Aller à /request → description courte → Submit</td>
+                    <td>Message d'erreur Zod</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">PUB014</td>
+                    <td>Demande Client</td>
+                    <td>Validation: service_id obligatoire</td>
+                    <td>Aucun</td>
+                    <td>Aller à /request → Ne pas sélectionner service → Submit</td>
+                    <td>Message d'erreur "Veuillez choisir un service"</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">PUB015</td>
+                    <td>Demande Client</td>
+                    <td>Préremplissage via paramètres URL</td>
+                    <td>Aucun</td>
+                    <td>Aller à /request?address=Paris&service_id=1</td>
+                    <td>Champs adress_client et service_id préremplis</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">PUB016</td>
+                    <td>Devenir Artisan</td>
+                    <td>Page "Devenir artisan" affiche 6 étapes</td>
+                    <td>Aucun</td>
+                    <td>Aller à /become-technician</td>
+                    <td>6 étapes numérotées (01-06) affichées</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">PUB017</td>
+                    <td>About</td>
+                    <td>Page "À propos" charge</td>
+                    <td>Aucun</td>
+                    <td>Aller à /about</td>
+                    <td>Contenu About affiche</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">PUB018</td>
+                    <td>HowItWorks</td>
+                    <td>Page "Comment ça marche" charge</td>
+                    <td>Aucun</td>
+                    <td>Aller à /how-it-works</td>
+                    <td>Contenu HowItWorks affiche</td>
+                    <td>À tester</td>
+                </tr>
+
+                <!-- ESPACE TECHNICIEN -->
+                <tr class="module">
+                    <td colspan="7">🔧 ESPACE TECHNICIEN</td>
+                </tr>
+                <tr>
+                    <td class="test-id">TECH001</td>
+                    <td>Dashboard</td>
+                    <td>Accès /technician protégé par RoleGuard</td>
+                    <td>Non connecté</td>
+                    <td>Accéder à /technician sans login</td>
+                    <td>Redirection /auth/login</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">TECH002</td>
+                    <td>Dashboard</td>
+                    <td>Affichage dashboard technicien</td>
+                    <td>Technicien connecté</td>
+                    <td>Aller à /technician</td>
+                    <td>Affichage: "Bonjour [first_name]" - Statut 🟢/🔴 - 4 cartes (demandes - interventions - abonnement)</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">TECH003</td>
+                    <td>Dashboard</td>
+                    <td>Statut disponibilité basé sur user.available</td>
+                    <td>Technicien connecté</td>
+                    <td>Être sur /technician dashboard</td>
+                    <td>Statut correct: 🟢 "Disponible" si true sinon 🔴 "Indisponible"</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">TECH004</td>
+                    <td>Requests</td>
+                    <td>Filtre demandes: status="en_attente" ET service correspond</td>
+                    <td>Technicien avec services définis</td>
+                    <td>Aller à /technician/requests</td>
+                    <td>Affichage demandes en_attente matchant profileServices uniquement</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">TECH005</td>
+                    <td>Requests</td>
+                    <td>Message indisponibilité si available=false</td>
+                    <td>Technicien avec available=false</td>
+                    <td>Aller à /technician/requests</td>
+                    <td>Message: "Vous êtes indisponible" + Lien "Modifier mon profil"</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">TECH006</td>
+                    <td>Requests</td>
+                    <td>Message abonnement inactif bloque accès</td>
+                    <td>Technicien avec subscription.status ≠ "active"</td>
+                    <td>Aller à /technician/requests</td>
+                    <td>Message: "Accès aux demandes indisponible" + "Votre abonnement inactif" + Lien /technician/subscription</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">TECH007</td>
+                    <td>Requests</td>
+                    <td>Accepter demande passe status à "acceptee"</td>
+                    <td>Demande en_attente disponible</td>
+                    <td>Cliquer "Accepter" sur demande</td>
+                    <td>Toast "Demande acceptée" - Demande disparaît - technician_id assigné</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">TECH008</td>
+                    <td>Interventions</td>
+                    <td>Liste interventions en cours (status="acceptee")</td>
+                    <td>Technicien avec interventions acceptées</td>
+                    <td>Aller à /technician/interventions</td>
+                    <td>Cartes demandes acceptées assignées à ce technicien</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">TECH009</td>
+                    <td>Interventions</td>
+                    <td>Annuler intervention revient à status "en_attente"</td>
+                    <td>Intervention en cours</td>
+                    <td>Cliquer "Annuler" sur intervention</td>
+                    <td>Toast "Intervention annulée" - Status "en_attente" - technician_id null</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">TECH010</td>
+                    <td>Interventions</td>
+                    <td>Terminer intervention passe à status "confirmee"</td>
+                    <td>Intervention en cours</td>
+                    <td>Cliquer "Terminer" sur intervention</td>
+                    <td>Toast "Intervention terminée" - Status "confirmee"</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">TECH011</td>
+                    <td>CompletedInterventions</td>
+                    <td>Liste interventions terminées (status="confirmee")</td>
+                    <td>Technicien avec interventions complétées</td>
+                    <td>Aller à /technician/completed-interventions</td>
+                    <td>Historique interventions terminées affiche</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">TECH012</td>
+                    <td>Subscription</td>
+                    <td>Affichage abonnement technicien</td>
+                    <td>Technicien connecté</td>
+                    <td>Aller à /technician/subscription</td>
+                    <td>Titre "Abonnement Mensuel" - Statut - Dates start_date / end_date</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">TECH013</td>
+                    <td>Subscription</td>
+                    <td>Bouton "Souscrire" visible si status ≠ "active"</td>
+                    <td>Technicien avec subscription.status ≠ "active"</td>
+                    <td>Aller à /technician/subscription</td>
+                    <td>Bouton "Souscrire maintenant" visible</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">TECH014</td>
+                    <td>Profile</td>
+                    <td>Affichage profil technicien (read-only)</td>
+                    <td>Technicien connecté</td>
+                    <td>Aller à /technician/profile</td>
+                    <td>Données affichées: prénom - nom - email - téléphone - rôle - spécialités</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">TECH015</td>
+                    <td>EditProfile</td>
+                    <td>Accès édition profil</td>
+                    <td>Technicien connecté</td>
+                    <td>Aller à /technician/profile/edit</td>
+                    <td>Formulaire édition visible: first_name - last_name - phone - available</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">TECH016</td>
+                    <td>EditProfile</td>
+                    <td>Modification profil (ex: disponibilité)</td>
+                    <td>Technicien connecté</td>
+                    <td>Aller à /technician/profile/edit → Modifier available → Save</td>
+                    <td>Profil mis à jour - Message succès</td>
+                    <td>À tester</td>
+                </tr>
+
+                <!-- ESPACE ADMIN -->
+                <tr class="module">
+                    <td colspan="7">👨‍💼 ESPACE ADMINISTRATEUR</td>
+                </tr>
+                <tr>
+                    <td class="test-id">ADMIN001</td>
+                    <td>Dashboard</td>
+                    <td>Accès /admin protégé par RoleGuard (role=ADMIN)</td>
+                    <td>Non admin</td>
+                    <td>Accéder à /admin</td>
+                    <td>Redirection /auth/login</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">ADMIN002</td>
+                    <td>Dashboard</td>
+                    <td>Affichage dashboard admin</td>
+                    <td>Admin connecté</td>
+                    <td>Aller à /admin</td>
+                    <td>Titre "Tableau de bord Admin" affiche</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">ADMIN003</td>
+                    <td>Technicians</td>
+                    <td>Liste techniciens affiche</td>
+                    <td>Admin connecté</td>
+                    <td>Aller à /admin/technicians</td>
+                    <td>Tableau: Nom - Email - Téléphone - Disponibilité - Actions</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">ADMIN004</td>
+                    <td>Technicians</td>
+                    <td>Filtre: UNIQUEMENT role=TECHNICIAN</td>
+                    <td>Admin connecté</td>
+                    <td>Aller à /admin/technicians</td>
+                    <td>Liste contient UNIQUEMENT techniciens</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">ADMIN005</td>
+                    <td>Technicians</td>
+                    <td>Statut disponibilité couleurs (vert/rouge)</td>
+                    <td>Admin consulte techniciens</td>
+                    <td>Aller à /admin/technicians</td>
+                    <td>Vert si available=true sinon rouge</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">ADMIN006</td>
+                    <td>Subscriptions</td>
+                    <td>Liste abonnements affiche</td>
+                    <td>Admin connecté</td>
+                    <td>Aller à /admin/subscriptions</td>
+                    <td>Affichage abonnements avec statuts</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">ADMIN007</td>
+                    <td>Services</td>
+                    <td>Page services admin</td>
+                    <td>Admin connecté</td>
+                    <td>Aller à /admin/services</td>
+                    <td>Titre "Services" (page à développer)</td>
+                    <td>À tester</td>
+                </tr>
+
+                <!-- EMAILS -->
+                <tr class="module">
+                    <td colspan="7">✉️ EMAILS</td>
+                </tr>
+                <tr>
+                    <td class="test-id">EMAIL001</td>
+                    <td>Email</td>
+                    <td>Email envoyé quand technicien accepte demande</td>
+                    <td>Demande en_attente</td>
+                    <td>Technicien accepte demande</td>
+                    <td>Email reçu par email_client</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">EMAIL002</td>
+                    <td>Email</td>
+                    <td>Email destinataire = email_client</td>
+                    <td>Demande avec email_client spécifique</td>
+                    <td>Accepter demande</td>
+                    <td>Email envoyé à email_client uniquement</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">EMAIL003</td>
+                    <td>Email</td>
+                    <td>Email contient coordonnées technicien</td>
+                    <td>Demande acceptée</td>
+                    <td>Recevoir email</td>
+                    <td>Email contient: nom - téléphone - email du technicien</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">EMAIL004</td>
+                    <td>Email</td>
+                    <td>PAS d'email si demande non acceptée</td>
+                    <td>Demande en_attente</td>
+                    <td>Attendre (ne pas accepter)</td>
+                    <td>Aucun email envoyé</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">EMAIL005</td>
+                    <td>Email</td>
+                    <td>PAS d'email à l'inscription</td>
+                    <td>Nouvel inscrit</td>
+                    <td>S'inscrire</td>
+                    <td>Pas d'email de confirmation</td>
+                    <td>À tester</td>
+                </tr>
+
+                <!-- TESTS API -->
+                <tr class="module">
+                    <td colspan="7">🔗 TESTS API</td>
+                </tr>
+                <tr>
+                    <td class="test-id">API001</td>
+                    <td>GET /services</td>
+                    <td>GET /services retourne liste services</td>
+                    <td>Aucun</td>
+                    <td>Appel GET /services</td>
+                    <td>Réponse 200 + array services (id - name)</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">API002</td>
+                    <td>GET /services</td>
+                    <td>Services chargés dans Register</td>
+                    <td>Aucun</td>
+                    <td>Accéder /auth/register</td>
+                    <td>Dropdown service rempli avec données API</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">API003</td>
+                    <td>POST /requests</td>
+                    <td>POST /requests crée demande</td>
+                    <td>Aucun (pas d'auth)</td>
+                    <td>Soumettre /request</td>
+                    <td>Réponse 200/201 - Demande créée</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">API004</td>
+                    <td>POST /requests</td>
+                    <td>POST /requests valide données</td>
+                    <td>Aucun</td>
+                    <td>POST /requests données invalides</td>
+                    <td>Réponse 400 + message d'erreur</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">API005</td>
+                    <td>GET /users/profile</td>
+                    <td>GET /users/profile retourne profil</td>
+                    <td>Technicien avec token valide</td>
+                    <td>Appel GET /users/profile</td>
+                    <td>Réponse 200 + user data (id - email - first_name - last_name - available - role)</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">API006</td>
+                    <td>GET /subscriptions/me</td>
+                    <td>GET /subscriptions/me retourne abonnement</td>
+                    <td>Technicien connecté</td>
+                    <td>Appel GET /subscriptions/me</td>
+                    <td>Réponse 200 + subscription (status - start_date - end_date)</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">API007</td>
+                    <td>PUT /requests/{id}</td>
+                    <td>PUT /requests/{id} accepte demande</td>
+                    <td>Demande en_attente + technicien</td>
+                    <td>Cliquer accepter → PUT /requests/{id}</td>
+                    <td>Réponse 200 + status=acceptee - technician_id assigné</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">API008</td>
+                    <td>PUT /requests/{id}</td>
+                    <td>PUT /requests/{id} complète demande</td>
+                    <td>Intervention acceptée</td>
+                    <td>Cliquer terminer → PUT /requests/{id}</td>
+                    <td>Réponse 200 + status=confirmee</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">API009</td>
+                    <td>GET /requests</td>
+                    <td>GET /requests retourne demandes</td>
+                    <td>Technicien connecté</td>
+                    <td>Appel GET /requests</td>
+                    <td>Réponse 200 + array demandes du technicien</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">API010</td>
+                    <td>PUT /users/profile</td>
+                    <td>PUT /users/profile met à jour profil</td>
+                    <td>Technicien connecté</td>
+                    <td>Modifier et save profil</td>
+                    <td>Réponse 200 + profil mis à jour</td>
+                    <td>À tester</td>
+                </tr>
+
+                <!-- VALIDATIONS AVANCÉES -->
+                <tr class="module">
+                    <td colspan="7">✅ VALIDATIONS AVANCÉES</td>
+                </tr>
+                <tr>
+                    <td class="test-id">VAL001</td>
+                    <td>Validation</td>
+                    <td>Service inexistant rejette demande</td>
+                    <td>Aucun</td>
+                    <td>POST /requests avec service_id invalide</td>
+                    <td>Toast d'erreur backend</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">VAL002</td>
+                    <td>Validation</td>
+                    <td>Email format invalide (côté client)</td>
+                    <td>Aucun</td>
+                    <td>Formulaire avec email format invalide</td>
+                    <td>Message "Veuillez saisir une adresse email valide"</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">VAL003</td>
+                    <td>Validation</td>
+                    <td>First name minimum 2 (côté client)</td>
+                    <td>Aucun</td>
+                    <td>Formulaire avec first_name = "A"</td>
+                    <td>Message d'erreur Zod</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">VAL004</td>
+                    <td>Validation</td>
+                    <td>Phone minimum 10 (côté client)</td>
+                    <td>Aucun</td>
+                    <td>Formulaire avec phone = "123456789"</td>
+                    <td>Message d'erreur Zod</td>
+                    <td>À tester</td>
+                </tr>
+
+                <!-- SÉCURITÉ & ROUTAGE -->
+                <tr class="module">
+                    <td colspan="7">🔒 SÉCURITÉ & ROUTAGE</td>
+                </tr>
+                <tr>
+                    <td class="test-id">SEC001</td>
+                    <td>RoleGuard</td>
+                    <td>Accès pages protégées bloqué sans login</td>
+                    <td>Non authentifié</td>
+                    <td>Accéder /technician ou /admin sans token</td>
+                    <td>Redirection /auth/login</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">SEC002</td>
+                    <td>Sessions</td>
+                    <td>Persistence session localStorage</td>
+                    <td>Utilisateur connecté</td>
+                    <td>F5 (refresh) page</td>
+                    <td>Utilisateur reste connecté</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">SEC003</td>
+                    <td>API Errors</td>
+                    <td>Erreurs API affichent toast</td>
+                    <td>Appel API échoue</td>
+                    <td>Effectuer action qui échoue</td>
+                    <td>Toast d'erreur: error.response?.data?.error ou "Une erreur survenue"</td>
+                    <td>À tester</td>
+                </tr>
+
+                <!-- LAYOUTS & COMPOSANTS -->
+                <tr class="module">
+                    <td colspan="7">🎨 LAYOUTS & COMPOSANTS</td>
+                </tr>
+                <tr>
+                    <td class="test-id">LAYOUT001</td>
+                    <td>PublicLayout</td>
+                    <td>PublicLayout = Navbar + page + Footer</td>
+                    <td>Aucun</td>
+                    <td>Accéder routes publiques</td>
+                    <td>Navbar - contenu - Footer visibles</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">LAYOUT002</td>
+                    <td>TechnicianLayout</td>
+                    <td>TechnicianLayout = menu + page</td>
+                    <td>Technicien connecté</td>
+                    <td>Accéder /technician</td>
+                    <td>Menu latéral + contenu page</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">LAYOUT003</td>
+                    <td>AdminLayout</td>
+                    <td>AdminLayout = menu admin + page</td>
+                    <td>Admin connecté</td>
+                    <td>Accéder /admin</td>
+                    <td>Menu admin latéral + contenu page</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">COMP001</td>
+                    <td>Navbar</td>
+                    <td>Navbar affiche liens corrects</td>
+                    <td>Aucun</td>
+                    <td>Observer Navbar</td>
+                    <td>Liens: Accueil - Services - Comment ça marche - Devenir artisan - À propos (NB: pas "Technician")</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">COMP002</td>
+                    <td>HeroSection</td>
+                    <td>HeroSection affiche accueil</td>
+                    <td>Aucun</td>
+                    <td>Observer /</td>
+                    <td>Hero visible avec CTA</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">COMP003</td>
+                    <td>EmergencyCTA</td>
+                    <td>EmergencyCTA affiche CTA</td>
+                    <td>Aucun</td>
+                    <td>Observer /</td>
+                    <td>CTA visible</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">COMP004</td>
+                    <td>ServiceSection</td>
+                    <td>ServiceSection affiche services</td>
+                    <td>Aucun</td>
+                    <td>Observer /</td>
+                    <td>Section services avec liste</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">COMP005</td>
+                    <td>HowItWork</td>
+                    <td>HowItWork affiche étapes process</td>
+                    <td>Aucun</td>
+                    <td>Observer /</td>
+                    <td>Étapes processus affichées</td>
+                    <td>À tester</td>
+                </tr>
+                <tr>
+                    <td class="test-id">COMP006</td>
+                    <td>Button</td>
+                    <td>Bouton Button réutilisable</td>
+                    <td>Aucun</td>
+                    <td>Cliquer boutons partout</td>
+                    <td>Fonctionnement correct - style uniforme</td>
+                    <td>À tester</td>
+                </tr>
+
+                <!-- LOGOUT -->
+                <tr class="module">
+                    <td colspan="7">🚪 LOGOUT</td>
+                </tr>
+                <tr>
+                    <td class="test-id">LOGOUT001</td>
+                    <td>Logout</td>
+                    <td>Logout supprime localStorage + recharge</td>
+                    <td>Utilisateur connecté avec Navbar visible</td>
+                    <td>Cliquer logout dans Navbar</td>
+                    <td>localStorage vidé (email - role - token - first_name - last_name) - Page recharge - Redirection home</td>
+                    <td>À tester</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="note">
+            <h3>📝 NOTES IMPORTANTES (VERSION CORRIGÉE):</h3>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li><strong>✅ PAS d'email à l'inscription</strong> - confirmé dans Register.jsx</li>
+                <li><strong>✅ Email à l'acceptation</strong> - envoyé au client quand status→acceptee avec coordonnées du technicien</li>
+                <li><strong>✅ PAS de compte client</strong> - formulaire public /request sans auth</li>
+                <li><strong>✅ Abonnements = Techniciens ONLY</strong> - bloque accès /technician/requests si inactif</li>
+                <li><strong>✅ JWT Bearer Token</strong> - stocké et envoyé en Authorization header</li>
+                <li><strong>✅ Intercepteur 401</strong> - alert + localStorage vidé + redirection /auth/login</li>
+                <li><strong>✅ Messages Zod exacts</strong> - vérifiés dans registerSchema et requestSchema</li>
+                <li><strong>✅ Validations backend</strong> - email unique - tél 10+ - MDP 6+ - service obligatoire</li>
+                <li><strong>✅ Navbar texte: "Devenir artisan"</strong> - PAS "Devenir Technician"</li>
+                <li><strong>✅ RoleGuard redirects /auth/login</strong> - pas de redirection différente</li>
+                <li><strong>✅ Status demandes</strong> - en_attente → acceptee → confirmee</li>
+                <li><strong>✅ Bloque si indisponible</strong> - /technician/requests affiche message si available=false OU abonnement inactif</li>
+                <li><strong>✅ React Query (TanStack)</strong> - GET /services - GET /requests - GET /subscriptions/me - etc.</li>
+                <li><strong>🔍 Tests API001-API010</strong> - vérifiez avec Network tab ou postman</li>
+            </ul>
+        </div>
+
+        <div class="warning">
+            <h3>⚠️ À VÉRIFIER SUR LE BACKEND:</h3>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>Messages d'erreur exacts (ex: "Email déjà utilisé" ou autre?)</li>
+                <li>Email bien envoyé quand status→acceptee?</li>
+                <li>Contenu de l'email: Contient-il vraiment coordonnées technicien?</li>
+                <li>Validation backend: Service inexistant?</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

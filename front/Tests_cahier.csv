@@ -1,0 +1,91 @@
+Test ID,Module,Description,Prérequis,Étapes,Résultat Attendu,Statut
+AUTH001,Login,Se connecter avec email + mot de passe valides,Compte technicien existant,Aller à /auth/login → Saisir email et MDP corrects → Cliquer Login,Redirection vers /technician dashboard + localStorage remis à jour (user_id - first_name - last_name - email - role - token),À tester
+AUTH002,Login,Erreur login: email ou mot de passe incorrect (cas 1),Email inexistant,Aller à /auth/login → Email inexistant → Cliquer Login,Toast d'erreur: message du backend (généralement "Email ou mot de passe incorrect"),À tester
+AUTH003,Login,Erreur login: email ou mot de passe incorrect (cas 2),Compte existant,Aller à /auth/login → Email correct + MDP faux → Cliquer Login,Toast d'erreur: message du backend (généralement "Email ou mot de passe incorrect"),À tester
+AUTH004,Register,S'inscrire comme technicien,Aucun,Aller à /auth/register → Remplir formulaire complet (first_name - last_name - email - phone - password - confirm_password - role - service_id) → Cliquer Register,Toast succès: message backend + Redirection /auth/login,À tester
+AUTH005,Register,Validation: first_name minimum 2 caractères,Aucun,Aller à /auth/register → first_name = "A" → Submit,Message d'erreur Zod (vérifier exact message backend),À tester
+AUTH006,Register,Validation: service_id obligatoire,Aucun,Aller à /auth/register → Ne pas sélectionner service → Submit,Message d'erreur "Veuillez choisir une spécialité",À tester
+AUTH007,Register,Validation: email format invalide,Aucun,Aller à /auth/register → Email invalide (ex: "test@") → Submit,Message d'erreur "Veuillez saisir une adresse email valide",À tester
+AUTH008,Register,Validation: téléphone minimum 10 caractères,Aucun,Aller à /auth/register → phone = "123456789" (9 chars) → Submit,Message d'erreur Zod,À tester
+AUTH009,Register,Validation: mot de passe minimum 6 caractères,Aucun,Aller à /auth/register → password = "12345" → Submit,Message d'erreur "Le mot de passe doit contenir au moins 6 caractères",À tester
+AUTH010,Register,Validation: MDP et confirmation doivent correspondre,Aucun,Aller à /auth/register → password ≠ confirm_password → Submit,Message d'erreur "Les mots de passe ne correspondent pas",À tester
+AUTH011,Register,Message redirection si déjà connecté,Utilisateur avec email en localStorage,Aller à /auth/register,Message "You are already logged in as [email]" + Lien vers Home,À tester
+AUTH012,Register,Email déjà utilisé (validation backend),Email existant en base,Aller à /auth/register → Email déjà utilisé → Submit,Toast d'erreur: message backend (ex: "Email déjà utilisé"),À tester
+JWT001,JWT Token,Token JWT stocké dans localStorage après login,Login réussi,Effectuer login → Ouvrir DevTools → Vérifier localStorage,Clé "token" présente avec valeur Bearer token,À tester
+JWT002,JWT Token,Token JWT envoyé en header Authorization,Utilisateur connecté,Effectuer action API (ex: accepter demande) → Ouvrir Network tab → Vérifier requête,Header "Authorization: Bearer [token]" présent dans requête,À tester
+JWT003,JWT Token Expiré,Si token expiré (401): redirection + alert + localStorage vidé,Token expiré en localStorage,Effectuer action / Server retourne 401,Alert "Votre session a expiré" + Redirection /auth/login + localStorage complètement vidé (token - email - role - user_id - first_name - last_name),À tester
+JWT004,JWT Rôle,Technicien ne peut pas accéder /admin,Technicien connecté (role=TECHNICIAN),Accéder à /admin (URL directe ou manipulation),Redirection /auth/login (RoleGuard bloque),À tester
+JWT005,JWT Rôle,Admin ne peut pas accéder /technician,Admin connecté (role=ADMIN),Accéder à /technician (URL directe),Redirection /auth/login (RoleGuard bloque),À tester
+PUB001,Accueil,Page d'accueil affiche sections principales,Aucun,Aller à /,Sections visibles: HeroSection - ServiceSection - EmergencyCTA - HowItWork,À tester
+PUB002,Accueil,Bouton ScrollToTop visible et fonctionne,Aucun,Accéder à / → Scroller vers bas,Bouton visible → Clic remonte page en haut,À tester
+PUB003,Navigation,Navigation: Accueil → Services,Aucun,Cliquer "Services" dans Navbar,Redirection vers /services,À tester
+PUB004,Navigation,Navigation: Accueil → Comment ça marche,Aucun,Cliquer "Comment ça marche" dans Navbar,Redirection vers /how-it-works,À tester
+PUB005,Navigation,Navigation: Accueil → Devenir artisan,Aucun,Cliquer "Devenir artisan" dans Navbar,Redirection vers /become-technician,À tester
+PUB006,Navigation,Navigation: Accueil → À propos,Aucun,Cliquer "À propos" dans Navbar,Redirection vers /about,À tester
+PUB007,Services,Page Services affiche tous les services,Aucun,Aller à /services,Liste des services chargée via GET /services,À tester
+PUB008,Demande Client,Créer demande sans compte (formulaire public),Aucun (pas d'auth nécessaire),Aller à /request → Remplir: first_name_client - last_name_client - phone_client - email_client - adress_client - description - service_id → Submit,Toast succès: message backend + Formulaire réinitialisé,À tester
+PUB009,Demande Client,Validation: first_name_client min 2,Aucun,Aller à /request → first_name_client = "A" → Submit,Message d'erreur Zod,À tester
+PUB010,Demande Client,Validation: phone_client min 10 caractères,Aucun,Aller à /request → phone_client trop court → Submit,Message d'erreur Zod,À tester
+PUB011,Demande Client,Validation: email_client format invalide,Aucun,Aller à /request → email_client invalide → Submit,Message d'erreur Zod,À tester
+PUB012,Demande Client,Validation: adress_client min 5 caractères,Aucun,Aller à /request → adress_client = "Park" → Submit,Message d'erreur Zod,À tester
+PUB013,Demande Client,Validation: description min 10 caractères,Aucun,Aller à /request → description courte → Submit,Message d'erreur Zod,À tester
+PUB014,Demande Client,Validation: service_id obligatoire,Aucun,Aller à /request → Ne pas sélectionner service → Submit,Message d'erreur "Veuillez choisir un service",À tester
+PUB015,Demande Client,Préremplissage via paramètres URL,Aucun,Aller à /request?address=Paris&service_id=1,Champs adress_client et service_id préremplis,À tester
+PUB016,Devenir Artisan,Page "Devenir artisan" affiche 6 étapes,Aucun,Aller à /become-technician,6 étapes numérotées (01-06) affichées,À tester
+PUB017,Pages Publiques,Page "About" charge,Aucun,Aller à /about,Contenu About affiche,À tester
+PUB018,Pages Publiques,Page "How it works" charge,Aucun,Aller à /how-it-works,Contenu HowItWorks affiche,À tester
+TECH001,Dashboard,Accès /technician protégé par RoleGuard,Utilisateur non connecté,Accéder à /technician sans login,Redirection /auth/login,À tester
+TECH002,Dashboard,Affichage dashboard technicien,Technicien connecté,Aller à /technician,Affichage: "Bonjour [first_name]" - Statut disponibilité 🟢/🔴 - 4 cartes (demandes disponibles - interventions actives - interventions complétées - abonnement),À tester
+TECH003,Dashboard,Statut disponibilité basé sur user.available,Technicien connecté,Être sur /technician dashboard,Statut correct: 🟢 "Disponible" si available=true sinon 🔴 "Indisponible",À tester
+TECH004,Requests,Filtre demandes: status="en_attente" ET service correspond,Technicien avec services définis,Aller à /technician/requests,Affichage demandes en_attente matchant profileServices uniquement,À tester
+TECH005,Requests,Message indisponibilité si available=false,Technicien avec available=false,Aller à /technician/requests,Message: "Vous êtes indisponible" + Lien "Modifier mon profil" (/technician/profile/edit),À tester
+TECH006,Requests,Message abonnement inactif,Technicien avec subscription.status ≠ "active",Aller à /technician/requests,Message: "Accès aux demandes indisponible" - "Votre abonnement est actuellement inactif" + Lien vers /technician/subscription,À tester
+TECH007,Requests,Accepter demande passe status à "acceptee",Demande en_attente disponible,Cliquer "Accepter" sur demande,Toast "Demande acceptée" - Demande disparaît de la liste - technician_id assigné,À tester
+TECH008,Interventions,Liste interventions en cours (status="acceptee"),Technicien avec interventions acceptées,Aller à /technician/interventions,Cartes des demandes acceptées assignées à ce technicien,À tester
+TECH009,Interventions,Annuler intervention revient à status "en_attente",Intervention en cours,Cliquer "Annuler" sur intervention,Toast "Intervention annulée" - Status revient "en_attente" - technician_id devient null,À tester
+TECH010,Interventions,Terminer intervention passe à status "confirmee",Intervention en cours,Cliquer "Terminer" sur intervention,Toast "Intervention terminée" - Intervention move à CompletedInterventions,À tester
+TECH011,CompletedInterventions,Liste interventions terminées (status="confirmee"),Technicien avec interventions complétées,Aller à /technician/completed-interventions,Historique interventions terminées affiche,À tester
+TECH012,Subscription,Affichage abonnement technicien,Technicien connecté,Aller à /technician/subscription,Titre "Abonnement Mensuel" - Statut (Actif/Inactif) - Dates start_date et end_date,À tester
+TECH013,Subscription,Bouton "Souscrire" visible si status ≠ "active",Technicien avec subscription.status ≠ "active",Aller à /technician/subscription,Bouton "Souscrire maintenant" visible et cliquable,À tester
+TECH014,Profile,Affichage profil technicien (read-only),Technicien connecté,Aller à /technician/profile,Données du profil affichées (prénom - nom - email - téléphone - rôle - spécialités),À tester
+TECH015,EditProfile,Accès édition profil,Technicien connecté,Aller à /technician/profile/edit,Formulaire édition visible avec champs: first_name - last_name - phone - available,À tester
+TECH016,EditProfile,Modification profil met à jour données,Technicien connecté,Aller à /technician/profile/edit → Modifier disponibilité (available) → Save,Profil mis à jour - Message succès affiché,À tester
+ADMIN001,Dashboard,Accès /admin protégé par RoleGuard (role=ADMIN),Utilisateur non admin,Accéder à /admin,Redirection /auth/login (RoleGuard vérifie role=ADMIN),À tester
+ADMIN002,Dashboard,Affichage dashboard admin,Admin connecté,Aller à /admin,Titre "Tableau de bord Admin" affiche,À tester
+ADMIN003,Technicians,Liste techniciens affiche,Admin connecté,Aller à /admin/technicians,Tableau avec colonnes: Nom - Email - Téléphone - Disponibilité - Actions,À tester
+ADMIN004,Technicians,Filtre: affichage seulement role=TECHNICIAN,Admin connecté,Aller à /admin/technicians,Liste contient UNIQUEMENT utilisateurs avec role=TECHNICIAN,À tester
+ADMIN005,Technicians,Statut disponibilité couleurs (vert/rouge),Admin consulte techniciens,Aller à /admin/technicians,Statut en vert si available=true sinon rouge si available=false,À tester
+ADMIN006,Subscriptions,Liste abonnements affiche,Admin connecté,Aller à /admin/subscriptions,Affichage abonnements avec statuts et détails,À tester
+ADMIN007,Services,Page services admin,Admin connecté,Aller à /admin/services,Titre "Services" affiche (page à développer),À tester
+EMAIL001,Email,Email envoyé quand technicien accepte demande,Demande en_attente + technicien prêt,Technicien accepte demande,Email reçu par email_client de la demande,À tester
+EMAIL002,Email,Email destinataire = email_client,Demande avec email_client spécifique,Accepter demande,Email envoyé à email_client uniquement,À tester
+EMAIL003,Email,Email contient coordonnées technicien,Demande acceptée,Recevoir email,Email contient: nom - téléphone - email du technicien,À tester
+EMAIL004,Email,Pas d'email si demande non acceptée,Demande en_attente non acceptée,Attendre (ne pas accepter),Pas d'email envoyé,À tester
+EMAIL005,Email,Pas d'email à l'inscription,Nouvel inscrit,S'inscrire,Pas d'email envoyé,À tester
+API001,API GET,GET /services retourne liste services,Aucun,Appel GET http://localhost:3000/services,Réponse 200 + array services avec id - name,À tester
+API002,API GET,Services chargés dans Register,Aucun,Accéder /auth/register,Dropdown service rempli avec données GET /services,À tester
+API003,API POST,POST /requests crée demande client,Aucun (pas d'auth),Soumettre formulaire /request,Réponse 200/201 - Demande créée en base,À tester
+API004,API POST,POST /requests valide données backend,Aucun,Soumettre /request avec données invalides (ex: email invalide backend side),Réponse 400 + message d'erreur,À tester
+API005,API GET,GET /users/profile retourne profil technicien,Technicien avec token valide,Appel GET /users/profile,Réponse 200 + user data (id - email - first_name - last_name - available - role),À tester
+API006,API GET,GET /subscriptions/me retourne abonnement,Technicien connecté,Appel GET /subscriptions/me (dans /technician/subscription),Réponse 200 + subscription (status - start_date - end_date),À tester
+API007,API PUT,PUT /requests/{id} accepte demande,Demande en_attente + technicien connecté,Cliquer accepter → PUT /requests/{id},Réponse 200 + status=acceptee - technician_id assigné,À tester
+API008,API PUT,PUT /requests/{id} complète demande,Intervention acceptée,Cliquer terminer → PUT /requests/{id},Réponse 200 + status=confirmee,À tester
+API009,API GET,GET /requests retourne demandes filtrées,Technicien connecté,Appel GET /requests,Réponse 200 + array demandes du technicien,À tester
+API010,API PUT,PUT /users/profile met à jour profil,Technicien connecté,Modifier et save profil → PUT /users/profile,Réponse 200 + profil mis à jour,À tester
+VAL001,Validation,Service inexistant rejette demande,Aucun,POST /requests avec service_id invalide,Toast d'erreur backend,À tester
+VAL002,Validation,Email format invalide (côté client),Aucun,Formulaire avec email format invalide,Message "Veuillez saisir une adresse email valide",À tester
+VAL003,Validation,First name minimum 2 (côté client),Aucun,Formulaire avec first_name = "A",Message d'erreur Zod,À tester
+VAL004,Validation,Phone minimum 10 caractères (côté client),Aucun,Formulaire avec phone = "123456789",Message d'erreur Zod,À tester
+SEC001,RoleGuard,Accès pages protégées bloqué sans login,Non authentifié,Accéder /technician ou /admin sans token,Redirection /auth/login,À tester
+SEC002,Sessions,Persistence session localStorage,Utilisateur connecté,F5 (refresh) page,Utilisateur reste connecté (données en localStorage),À tester
+SEC003,Erreurs API,Toast d'erreur affichée,Appel API échoue,Effectuer action qui fait échouer API,Toast d'erreur: error.response?.data?.error ou "Une erreur est survenue",À tester
+LAYOUT001,PublicLayout,PublicLayout = Navbar + page + Footer,Aucun,Accéder routes publiques (/),Navbar - contenu - Footer visibles,À tester
+LAYOUT002,TechnicianLayout,TechnicianLayout = menu + page,Technicien connecté,Accéder /technician,Menu technicien latéral visible + contenu page,À tester
+LAYOUT003,AdminLayout,AdminLayout = menu admin + page,Admin connecté,Accéder /admin,Menu admin latéral visible + contenu page,À tester
+COMP001,Navbar,Navbar affiche liens de navigation corrects,Aucun,Observer Navbar,Liens: Accueil - Services - Comment ça marche - Devenir artisan - À propos,À tester
+COMP002,HeroSection,HeroSection affiche section accueil,Aucun,Observer page d'accueil,Section hero visible avec CTA,À tester
+COMP003,EmergencyCTA,EmergencyCTA affiche CTA urgence,Aucun,Observer page d'accueil,CTA visible,À tester
+COMP004,ServiceSection,ServiceSection affiche services,Aucun,Observer page d'accueil,Section services avec liste,À tester
+COMP005,HowItWork,HowItWork affiche étapes process,Aucun,Observer page d'accueil,Section processus affichée,À tester
+COMP006,Button,Bouton Button réutilisable,Aucun,Cliquer boutons dans app,Fonctionnement correct - style uniforme,À tester
+LOGOUT001,Logout,Logout supprime localStorage et recharge,Utilisateur connecté avec Navbar visible,Cliquer logout dans Navbar (via handleLogout),localStorage vidé (email - role - token - first_name - last_name) - Page recharge - Redirection home,À tester
