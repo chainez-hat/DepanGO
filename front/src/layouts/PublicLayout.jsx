@@ -21,7 +21,8 @@ export default function PublicLayout() {
             location.pathname === "/become-technician" ||
             location.pathname === "/services" ||
             location.pathname === "/how-it-works" ||
-            location.pathname === "/about"
+            location.pathname === "/about" ||
+            location.pathname === "/privacy-policy"
           }
         />
       )}

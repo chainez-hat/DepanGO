@@ -85,7 +85,12 @@ export default function Footer() {
           <div className="flex flex-col lg:flex-row items-center justify-between gap-6 text-sm text-gray-300 px-6">
             <div className="flex flex-col lg:flex-row items-center gap-4 lg:gap-8 text-center lg:text-left">
               <span>© 2026 DepanGO. Tous droits réservés</span>
-              <span>Politique de confidentialité</span>
+              <a
+                href="/privacy-policy"
+                className="hover:text-orange-500 transition"
+              >
+                Politique de confidentialité
+              </a>
               <span>Mentions légales</span>
               <span>Conditions générales d'utilisation</span>
             </div>

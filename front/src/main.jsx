@@ -24,6 +24,7 @@ import EditProfile from "./pages/technician/EditProfile.jsx";
 import Technicians from "./pages/admin/Technicians.jsx";
 import Subscriptions from "./pages/admin/Subscriptions.jsx";
 import ServicesAdmin from "./pages/admin/Services.jsx";
+import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
 import AdminLayout from "./layouts/AdminLayout.jsx";
 import PublicLayout from "./layouts/PublicLayout.jsx";
 import TechnicianLayout from "./layouts/TechnicianLayout.jsx";
@@ -54,6 +55,7 @@ createRoot(document.getElementById("root")).render(
             <Route path="/become-technician" element={<BecomeTechnician />} />
             <Route path="/about" element={<About />} />
             <Route path="/request" element={<CreateRequest />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           </Route>
 
           {/* Routes privées */}
