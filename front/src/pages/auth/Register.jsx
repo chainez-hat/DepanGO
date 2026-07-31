@@ -244,7 +244,7 @@ export function Register() {
                 ))}
               </select>
             </div>
-
+            {/*}
             <div className="mt-8 flex items-center gap-3">
               <input type="checkbox" id="terms" />
 
@@ -260,7 +260,7 @@ export function Register() {
                   politique de confidentialité
                 </span>
               </label>
-            </div>
+            </div>*/}
             <button
               type="submit"
               className="w-full mt-8 bg-orange-500 hover:bg-orange-600 text-white py-4 rounded-xl font-semibold transition"

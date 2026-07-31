@@ -124,16 +124,17 @@ export function Login() {
                 />
 
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-6">
-                  <label className="flex items-center gap-2 text-gray-600 text-sm">
+                  {/*<label className="flex items-center gap-2 text-gray-600 text-sm">
                     <input type="checkbox" className="accent-orange-500" />
                     Se souvenir de moi
-                  </label>
+                  </label>*/}
 
                   <Link
                     to="/forgot-password"
                     className="text-orange-500 text-sm hover:underline"
                   >
-                    Mot de passe oublié ?
+                    Mot de passe oublié ? Veuillez contactez l'administrateur à
+                    : contact@depango.fr
                   </Link>
                 </div>
 
