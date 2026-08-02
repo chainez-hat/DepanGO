@@ -8,16 +8,19 @@ import User from "../models/User.js";
   });
 }*/
 
-
 function getSubscriptions(req, res) {
-  Subscription.findAll({
+  User.findAll({
+    where: {
+      role: "TECHNICIAN",
+    },
     include: [
       {
-        model: User,
+        model: Subscription,
+        required: false,
       },
     ],
-  }).then((subscriptions) => {
-    res.json(subscriptions);
+  }).then((users) => {
+    res.json(users);
   });
 }
 

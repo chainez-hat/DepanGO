@@ -13,12 +13,16 @@ import { createRequest } from "../../api/requests.js";
 
 // Schema de validation avec zod
 const requestSchema = z.object({
-  first_name_client: z.string().min(2),
-  last_name_client: z.string().min(2),
-  phone_client: z.string().min(10),
-  email_client: z.string().email(),
-  adress_client: z.string().min(5),
-  description: z.string().min(10),
+  first_name_client: z.string().min(4, "Veuillez saisir votre prénom."),
+  last_name_client: z.string().min(4, "Veuillez saisir votre nom."),
+  phone_client: z
+    .string()
+    .min(10, "Veuillez saisir un numéro de téléphone valide."),
+  email_client: z.string().email("Veuillez saisir un email valide."),
+  adress_client: z.string().min(10, "Veuillez saisir votre adresse."),
+  description: z
+    .string()
+    .min(10, "Veuillez décrire votre problème (10 caractères minimum)."),
   service_id: z.string().min(1, "Veuillez choisir un service"),
 });
 
@@ -69,7 +73,15 @@ export default function CreateRequest() {
     onSuccess: (response) => {
       console.log("TOAST TEST");
       toast.success(response.data?.message);
-      reset();
+      reset({
+        first_name_client: "",
+        last_name_client: "",
+        email_client: "",
+        phone_client: "",
+        adress_client: "",
+        service_id: "",
+        description: "",
+      });
     },
 
     onError: (error) => {
